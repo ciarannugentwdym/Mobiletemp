@@ -149,7 +149,7 @@
         
         .headline-rotator { display: block; position: relative; height: 1.8em; line-height: 1.4; overflow: visible; }
         
-        .headline-text { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transform: translateY(100%); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease; white-space: nowrap; font-size: 0.95em; }
+        .headline-text { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transform: translateY(100%); transition: transform 0.9s var(--ease-arrive), opacity 0.7s ease; white-space: nowrap; font-size: 0.95em; }
         .headline-text.active { opacity: 1; transform: translateY(0); }
         .headline-text.exit { opacity: 0; transform: translateY(-100%); }
         
@@ -171,7 +171,7 @@
         @media (max-width: 1024px) { .hero__visual { order: 2; top: 0; } }
         
         /* ===== CAROUSEL STAGE ===== */
-        .spatial-stage { position: relative; width: 100%; max-width: 620px; height: 620px; margin: 0 auto; perspective: 1500px; transform-style: preserve-3d; }
+        .spatial-stage { position: relative; width: 100%; max-width: 620px; height: 620px; margin: 0 auto; perspective: 1500px; transform-style: preserve-3d; padding-bottom: 50px; }
         
         /* MOBILE CAROUSEL FIXES: Reduced height and proper containment */
         @media (max-width: 768px) {
@@ -179,12 +179,70 @@
                 height: 500px !important;
                 max-width: 95% !important;
                 margin: 0 auto;
+                padding-bottom: 40px !important;
+            }
+            
+            .carousel-box {
+                cursor: grab;
+                user-select: none;
+                -webkit-user-select: none;
+                -webkit-tap-highlight-color: rgba(74, 144, 226, 0.1);
+            }
+            
+            .carousel-box.swiping {
+                cursor: grabbing;
+            }
+            
+            .carousel-box::after {
+                content: '← Swipe →';
+                position: absolute;
+                bottom: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: var(--font-display);
+                font-size: 0.75rem;
+                color: var(--text-light);
+                opacity: 0.6;
+                white-space: nowrap;
+                pointer-events: none;
+                z-index: 101;
+            }
+            
+            .carousel-nav {
+                bottom: 8px !important;
+                gap: 1rem !important;
+            }
+            
+            .nav-arrow {
+                min-width: 44px !important;
+                min-height: 44px !important;
+                touch-action: manipulation;
             }
         }
         
         @media (max-width: 480px) {
             .spatial-stage {
                 height: 440px !important;
+            }
+            
+            .carousel-nav {
+                bottom: 6px !important;
+                gap: 0.75rem !important;
+            }
+            
+            .nav-arrow {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            
+            .nav-dot {
+                width: 8px !important;
+                height: 8px !important;
+            }
+            
+            .carousel-box::after {
+                font-size: 0.7rem;
+                bottom: -25px;
             }
         }
         
@@ -448,7 +506,8 @@
         @media (max-width: 768px) {
             .tools-tile__headline {
                 font-size: 1.1rem !important;
-                margin-bottom: 1rem !important;
+                margin-bottom: 1.5rem !important;
+                padding-top: 0 !important;
             }
             
             .tools-grid {
@@ -475,8 +534,7 @@
             }
             
             .tools-tile__tagline {
-                font-size: 0.8rem !important;
-                margin-top: 0.5rem !important;
+                display: none !important;
             }
         }
         
@@ -969,7 +1027,6 @@
         
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
     </style>
-<base target="_blank">
 </head>
 <body>
     <nav class="nav" aria-label="Main navigation">
@@ -1026,8 +1083,7 @@
                                 <i class="ph ph-trend-up floating-badge__icon" aria-hidden="true"></i>
                                 <span>40% faster conversions</span>
                             </div>
-                            <!-- REPOSITIONED: Moved from 8% to 2% for better spacing -->
-                            <div class="floating-badge" data-room="2" style="top: 20%; left: 2%; animation-delay: 0.5s; display: none;">
+                            <div class="floating-badge" data-room="2" style="top: 18%; left: 2%; animation-delay: 0.5s; display: none;">
                                 <i class="ph ph-clipboard-text floating-badge__icon" aria-hidden="true"></i>
                                 <span>personalized protocol</span>
                             </div>
@@ -1657,12 +1713,19 @@
                 this.pauseBtn = document.getElementById('pauseBtn');
                 this.artifactLayer = document.getElementById('artifactLayer');
                 this.liveRegion = document.getElementById('carousel-live-region');
+                this.carouselBox = document.getElementById('carouselBox');
                 this.currentIndex = 0;
                 this.totalRooms = this.rooms.length;
                 this.isTransitioning = false;
                 this.isPaused = false;
-                // SYNCHRONIZED TIMING: All rooms use same duration for headline sync
                 this.durations = [6000, 6000, 6000, 6000, 6000];
+                
+                // Touch support properties
+                this.touchStartX = 0;
+                this.touchEndX = 0;
+                this.minSwipeDistance = 50;
+                this.isDragging = false;
+                
                 this.init();
             }
             
@@ -1693,10 +1756,54 @@
                     if (!this.isPaused) this.startAutoPlay();
                 });
                 
+                // Initialize touch support
+                this.initTouchSupport();
+                
                 // Respect reduced motion preference
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     this.durations = [0, 0, 0, 0, 0];
                 }
+            }
+            
+            initTouchSupport() {
+                // Touch events for mobile swipe
+                this.carouselBox.addEventListener('touchstart', (e) => {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                    this.stopAutoPlay();
+                    this.carouselBox.classList.add('swiping');
+                }, { passive: true });
+                
+                this.carouselBox.addEventListener('touchend', (e) => {
+                    this.touchEndX = e.changedTouches[0].screenX;
+                    this.handleSwipe();
+                    this.carouselBox.classList.remove('swiping');
+                    if (!this.isPaused) {
+                        setTimeout(() => this.startAutoPlay(), 1000);
+                    }
+                }, { passive: true });
+                
+                this.carouselBox.addEventListener('touchmove', (e) => {
+                    const currentX = e.touches[0].screenX;
+                    if (Math.abs(this.touchStartX - currentX) > 10) {
+                        this.isDragging = true;
+                    }
+                }, { passive: true });
+            }
+            
+            handleSwipe() {
+                const swipeDistance = this.touchStartX - this.touchEndX;
+                
+                if (Math.abs(swipeDistance) < this.minSwipeDistance) {
+                    this.isDragging = false;
+                    return;
+                }
+                
+                if (swipeDistance > 0) {
+                    this.navigate(1);
+                } else {
+                    this.navigate(-1);
+                }
+                this.isDragging = false;
             }
             
             togglePause() {
@@ -1764,7 +1871,7 @@
                     this.liveRegion.textContent = `Showing ${roomLabel}`;
                 }
                 
-                // SYNCHRONIZED HEADLINE: Immediate sync with room transition
+                // FIXED: Synchronized headline transition with room change - 400ms for smooth animation
                 this.syncHeadline(newIndex);
                 
                 setTimeout(() => {
@@ -1779,7 +1886,7 @@
                 setTimeout(() => { this.isTransitioning = false; }, 1200);
             }
             
-            // FIXED: Synchronized headline transition with room change
+            // FIXED: Synchronized headline transition with room change - 400ms timing
             syncHeadline(newIndex) {
                 const current = this.headlines[this.currentIndex];
                 const next = this.headlines[newIndex];
@@ -1792,11 +1899,11 @@
                 // Animate current out
                 current.classList.add('exit');
                 
-                // Bring next in with coordinated timing (150ms matches CSS transition)
+                // Use 400ms timing for smooth room transition coordination
                 setTimeout(() => {
                     current.classList.remove('exit');
                     next.classList.add('active');
-                }, 150);
+                }, 400);
             }
             
             showArtifacts(roomIndex) {
