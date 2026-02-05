@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraFlow | Premium Conversion Components</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --font-display: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            
+            --primary-blue: #4A90E2;
+            --primary-blue-light: #7AB1ED;
+            --bg-color: #F8FAFC;
+            --surface-color: #FFFFFF;
+            --text-dark: #1E3A5F;
+            --text-medium: #4A5568;
+            --text-light: #718096;
+            
+            --tile-1: #63B3ED;
+            --tile-2: #90CDF4;
+            --tile-3: #4299E1;
+            --tile-4: #3182CE;
+            --tile-5: #2B6CB0;
+            --tile-6: #2C5282;
+            --tile-7: #BEE3F8;
+            --tile-8: #4C6CB3;
+            
+            --ease-breath: cubic-bezier(0.33, 0, 0.67, 1);
+            --ease-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+            --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
+            --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            --timing-instant: 0.1s;
+            --timing-fast: 0.2s;
+            --timing-base: 0.3s;
+            --timing-slow: 0.5s;
+            --timing-slower: 0.8s;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-padding-top: 100px; }
+        body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--text-medium); background: var(--bg-color); overflow-x: hidden; }
+        
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* ===== NAVIGATION ===== */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(74, 144, 226, 0.1); }
+        .nav__inner { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+        @media (max-width: 768px) { .nav__inner { height: 70px; padding: 0 1.5rem; } }
+        
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; color: var(--text-dark); }
+        .logo__icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem; }
+        
+        .nav__links { display: flex; gap: 2.5rem; list-style: none; }
+        @media (max-width: 900px) { .nav__links { display: none; } }
+        
+        .nav__link { font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; color: var(--text-medium); text-decoration: none; transition: color var(--timing-fast) ease; position: relative; }
+        .nav__link:hover { color: var(--primary-blue); }
+        .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--primary-blue); transition: width var(--timing-fast) ease; }
+        .nav__link:hover::after { width: 100%; }
+        
+        .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: all var(--timing-base) ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; min-height: 44px; min-width: 44px; }
+        .btn--primary { background: var(--primary-blue); color: white; box-shadow: 0 4px 16px -4px rgba(74, 144, 226, 0.4); }
+        .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -4px rgba(74, 144, 226, 0.5); background: var(--tile-4); }
+        .btn--primary:focus { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
+        .btn--ghost { background: transparent; color: var(--primary-blue); border-color: var(--primary-blue); }
+        .btn--ghost:hover { background: rgba(74, 144, 226, 0.05); }
+        .btn--ghost:focus { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
+        .btn--dark { background: var(--text-dark); color: white; }
+        .btn--dark:hover { background: var(--tile-6); transform: translateY(-2px); }
+        .btn--dark:focus { outline: 2px solid var(--text-dark); outline-offset: 2px; }
+        
+        /* ===== HERO SECTION ===== */
+        .hero { padding-top: 120px; padding-bottom: 5rem; padding-left: 2.5rem; padding-right: 2.5rem; background: linear-gradient(180deg, var(--bg-color) 0%, #EDF5FF 100%); min-height: 90vh; display: flex; align-items: center; }
+        @media (max-width: 1024px) { .hero { padding-top: 100px; padding-left: 1.5rem; padding-right: 1.5rem; min-height: auto; } }
+        
+        /* MOBILE HERO FIX: Dynamic height and spacing */
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: 90px !important;
+                padding-bottom: 3rem !important;
+                min-height: calc(100vh - 70px) !important;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .hero__inner {
+                padding-top: 0 !important;
+                gap: 2rem !important;
+            }
+            
+            .hero__content {
+                padding-top: 0.5rem !important;
+                max-width: 100% !important;
+            }
+            
+            .hero__headline {
+                font-size: clamp(1.75rem, 6vw, 2.5rem) !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .hero__sub {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .hero__cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            
+            .hero__cta-group .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        
+        .hero__inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; width: 100%; padding-top: 1.5rem; }
+        @media (max-width: 1024px) { .hero__inner { grid-template-columns: 1fr; gap: 3rem; } }
+        
+        .hero__content { max-width: 520px; padding-top: 1.5rem; position: relative; }
+        @media (max-width: 1024px) { .hero__content { order: 1; text-align: center; max-width: 100%; margin: 0 auto; } }
+        
+        .hero__tagline { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--text-light); font-size: 1.05rem; margin-bottom: 0.75rem; }
+        
+        .hero__headline { font-family: var(--font-display); font-size: clamp(2.25rem, 4vw, 3.25rem); font-weight: 700; line-height: 1.15; color: var(--text-dark); margin-top: 0; margin-bottom: 2rem; letter-spacing: -0.02em; position: relative; }
+        
+        .hero__headline::before { content: ''; position: absolute; top: -1rem; left: 0; width: 40px; height: 3px; background: linear-gradient(90deg, var(--primary-blue), transparent); border-radius: 3px; }
+        @media (max-width: 1024px) { .hero__headline::before { left: 50%; transform: translateX(-50%); } }
+        
+        .headline-rotator { display: block; position: relative; height: 1.8em; line-height: 1.4; overflow: visible; }
+        
+        .headline-text { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transform: translateY(100%); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease; white-space: nowrap; font-size: 0.95em; }
+        .headline-text.active { opacity: 1; transform: translateY(0); }
+        .headline-text.exit { opacity: 0; transform: translateY(-100%); }
+        
+        @media (max-width: 480px) {
+            .headline-text {
+                white-space: normal !important;
+                font-size: 0.85em;
+            }
+        }
+        
+        .hero__headline em { font-style: italic; color: var(--primary-blue); font-weight: 600; display: block; }
+        
+        .hero__sub { font-size: 1.1rem; color: var(--text-medium); opacity: 0.85; margin-bottom: 2rem; line-height: 1.7; }
+        
+        .hero__cta-group { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        @media (max-width: 1024px) { .hero__cta-group { justify-content: center; flex-direction: column; align-items: center; gap: 1rem; } }
+        
+        .hero__visual { display: flex; justify-content: center; align-items: center; position: relative; top: -1rem; }
+        @media (max-width: 1024px) { .hero__visual { order: 2; top: 0; } }
+        
+        /* ===== CAROUSEL STAGE ===== */
+        .spatial-stage { position: relative; width: 100%; max-width: 620px; height: 620px; margin: 0 auto; perspective: 1500px; transform-style: preserve-3d; }
+        
+        /* MOBILE CAROUSEL FIXES: Reduced height and proper containment */
+        @media (max-width: 768px) {
+            .spatial-stage {
+                height: 500px !important;
+                max-width: 95% !important;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .spatial-stage {
+                height: 440px !important;
+            }
+        }
+        
+        .carousel-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 480px; aspect-ratio: 1 / 1.08; border-radius: 24px; box-shadow: 0 32px 64px -16px rgba(30, 58, 95, 0.12), 0 16px 32px -8px rgba(30, 58, 95, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6); overflow: hidden; background: var(--surface-color); z-index: 10; transform-style: preserve-3d; border: 1px solid rgba(74, 144, 226, 0.1); }
+        
+        /* MOBILE CAROUSEL BOX FIXES */
+        @media (max-width: 768px) {
+            .carousel-box {
+                max-width: 95% !important;
+                aspect-ratio: 1 / 1.2 !important;
+                border-radius: 20px !important;
+            }
+            
+            .room {
+                padding: 2rem 1.5rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-box {
+                aspect-ratio: 1 / 1.25 !important;
+                border-radius: 16px !important;
+            }
+            
+            .room {
+                padding: 1.5rem !important;
+            }
+        }
+        
+        @media (max-width: 600px) { .carousel-box { max-width: 92%; aspect-ratio: 1 / 1.15; } }
+        
+        /* ===== ROOM TRANSITIONS ===== */
+        .room { position: absolute; inset: 0; opacity: 0; visibility: hidden; transform: translateZ(-200px) scale(0.85) rotateY(5deg); filter: blur(12px) brightness(0.9); transition: transform 1.5s var(--ease-dramatic), opacity 1.0s var(--ease-soft), filter 1.0s var(--ease-soft), visibility 1.5s; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; text-align: center; will-change: transform, opacity, filter; }
+        
+        .room.active { opacity: 1; visibility: visible; transform: translateZ(0) scale(1) rotateY(0deg); filter: blur(0) brightness(1); z-index: 10; transition-delay: 0.1s; }
+        .room.exit-left { opacity: 0; transform: translateX(-40%) translateZ(-300px) scale(0.8) rotateY(-15deg); filter: blur(20px) brightness(0.8); z-index: 5; }
+        .room.exit-right { opacity: 0; transform: translateX(40%) translateZ(-300px) scale(0.8) rotateY(15deg); filter: blur(20px) brightness(0.8); z-index: 5; }
+        
+        .room__bg { position: absolute; inset: 0; z-index: 1; opacity: 0; transform: scale(1.1); transition: transform 1.5s var(--ease-soft), opacity 1s ease; }
+        .room.active .room__bg { opacity: 1; transform: scale(1); }
+        
+        .room__bg--brand { background: radial-gradient(ellipse at 30% 20%, rgba(99, 179, 237, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(144, 205, 244, 0.2) 0%, transparent 50%), linear-gradient(145deg, var(--bg-color) 0%, #E6F3FF 50%, var(--surface-color) 100%); }
+        .room__bg--journey { background: radial-gradient(ellipse at 20% 30%, rgba(66, 153, 225, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(144, 205, 244, 0.2) 0%, transparent 50%), linear-gradient(145deg, #EBF4FF 0%, #E1EFFF 50%, #D6EBFF 100%); }
+        .room__bg--method { background: radial-gradient(ellipse at 50% 50%, rgba(49, 130, 206, 0.2) 0%, transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(99, 179, 237, 0.15) 0%, transparent 40%), linear-gradient(145deg, #E8F2FF 0%, #DEEAFF 100%); }
+        .room__bg--tools { background: radial-gradient(ellipse at 40% 60%, rgba(74, 144, 226, 0.2) 0%, transparent 50%), radial-gradient(ellipse at 60% 30%, rgba(99, 179, 237, 0.15) 0%, transparent 50%), linear-gradient(145deg, #EDF5FF 0%, #E3EEFF 100%); }
+        .room__bg--belonging { background: radial-gradient(ellipse at 50% 60%, rgba(74, 144, 226, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 30% 40%, rgba(190, 227, 248, 0.3) 0%, transparent 40%), linear-gradient(180deg, #F0F7FF 0%, #E1EFFF 50%, #D6EBFF 100%); }
+        
+        .room__content { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(30px); transition: opacity 1.0s var(--ease-breath) 0.6s, transform 1.0s var(--ease-arrive) 0.6s; }
+        .room.active .room__content { opacity: 1; transform: translateY(0); }
+        
+        /* ===== TILE 1: HERO ===== */
+        .hero-tile__logo-wrap { position: relative; margin-bottom: 1.5rem; transform: translateZ(50px); width: 100%; display: flex; justify-content: center; align-items: center; }
+        
+        .hero-tile__logo { width: 80%; max-width: 280px; height: auto; position: relative; z-index: 2; opacity: 0; transform: scale(0.9) translateY(10px); filter: drop-shadow(0 10px 30px rgba(74, 144, 226, 0.2)); margin: 0 auto; display: block; font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--text-dark); letter-spacing: -0.02em; }
+        
+        /* MOBILE TILE 1 FIXES */
+        @media (max-width: 768px) {
+            .hero-tile__logo {
+                font-size: 2.5rem !important;
+                max-width: 240px !important;
+            }
+            
+            .hero-tile__logo-wrap::before {
+                width: 200px !important;
+                height: 200px !important;
+            }
+            
+            .hero-tile__seal {
+                font-size: 0.7rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .hero-tile__tagline {
+                font-size: 1rem !important;
+            }
+        }
+        
+        .hero-tile__logo span { background: linear-gradient(135deg, var(--primary-blue), var(--tile-4)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .room.active .hero-tile__logo { animation: logoArrive 1.2s var(--ease-arrive) 0.5s forwards; }
+        
+        @keyframes logoArrive { to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        .hero-tile__logo-wrap::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 250px; background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%); filter: blur(40px); z-index: 1; animation: breathGlow 5s ease-in-out infinite; }
+        
+        @keyframes breathGlow { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; } 50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; } }
+        
+        .hero-tile__seal { font-family: var(--font-display); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; color: var(--text-light); text-transform: uppercase; margin-bottom: 2rem; opacity: 0; }
+        .room.active .hero-tile__seal { animation: fadeUp 0.8s var(--ease-breath) 1s forwards; }
+        
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hero-tile__tagline { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.1rem; color: var(--text-medium); opacity: 0; }
+        .room.active .hero-tile__tagline { animation: fadeUp 0.8s var(--ease-breath) 1.2s forwards; }
+        
+        /* ===== TILE 2: JOURNEY MAPPING ===== */
+        .journey-tile__headline { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--text-dark); margin-bottom: 2rem; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-arrive) 0.2s; }
+        .room.active .journey-tile__headline { opacity: 1; transform: translateY(0); }
+        
+        /* MOBILE TILE 2 FIXES */
+        @media (max-width: 768px) {
+            .journey-tile__headline {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 0.5rem;
+            }
+            
+            .journey-visual {
+                height: 180px !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .stepping-stones {
+                bottom: 30% !important;
+                left: 2% !important;
+                right: 2% !important;
+            }
+            
+            .stone {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .footprint-trail {
+                width: 70% !important;
+                height: 40% !important;
+            }
+            
+            .footprint {
+                width: 12px !important;
+                height: 20px !important;
+            }
+            
+            .milestone-labels {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+                align-items: center !important;
+                padding: 0 !important;
+            }
+            
+            .milestone-stat__value {
+                font-size: 1rem !important;
+            }
+            
+            .milestone-stat__label {
+                font-size: 0.65rem !important;
+            }
+        }
+        
+        .journey-visual { position: relative; width: 100%; max-width: 360px; height: 200px; margin-bottom: 2rem; }
+        
+        .stepping-stones { position: absolute; bottom: 25%; left: 5%; right: 5%; display: flex; justify-content: space-between; align-items: center; z-index: 10; pointer-events: none; }
+        
+        .stone { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-color); border: 2px solid rgba(74, 144, 226, 0.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 600; color: var(--text-dark); opacity: 0; transform: scale(0.5); box-shadow: 0 4px 12px rgba(30, 58, 95, 0.08); }
+        .stone[data-step="check"] { background: var(--tile-3); color: white; border-color: var(--tile-3); }
+        
+        .room.active .stone[data-step="1"] { animation: stoneAppear 0.6s var(--ease-arrive) 0.6s forwards; }
+        .room.active .stone[data-step="2"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.0s forwards; }
+        .room.active .stone[data-step="3"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.4s forwards; }
+        .room.active .stone[data-step="4"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.8s forwards; }
+        .room.active .stone[data-step="check"] { animation: stoneAppear 0.6s var(--ease-arrive) 2.2s forwards; }
+        
+        @keyframes stoneAppear { to { opacity: 1; transform: scale(1); } }
+        
+        .footprint-trail { position: absolute; top: 15%; right: 5%; width: 60%; height: 45%; pointer-events: none; z-index: 5; }
+        
+        .footprint { position: absolute; width: 14px; height: 24px; border-radius: 60% 40% 40% 60% / 70% 70% 30% 30%; opacity: 0; transform: scale(0.8); filter: blur(0.3px); }
+        .footprint:nth-child(odd) { transform: rotate(-12deg) scale(0.8); background: var(--tile-3); }
+        .footprint:nth-child(even) { transform: rotate(12deg) scale(0.8) translateY(-3px); background: var(--tile-2); }
+        .footprint:nth-child(1) { left: 10%; top: 60%; }
+        .footprint:nth-child(2) { left: 25%; top: 45%; }
+        .footprint:nth-child(3) { left: 40%; top: 30%; }
+        .footprint:nth-child(4) { left: 55%; top: 20%; }
+        .footprint:nth-child(5) { left: 70%; top: 15%; }
+        .footprint:nth-child(6) { left: 82%; top: 10%; }
+        
+        .room.active .footprint:nth-child(1) { animation: footprintIn 0.5s var(--ease-arrive) 0.8s forwards; }
+        .room.active .footprint:nth-child(2) { animation: footprintIn 0.5s var(--ease-arrive) 1.2s forwards; }
+        .room.active .footprint:nth-child(3) { animation: footprintIn 0.5s var(--ease-arrive) 1.6s forwards; }
+        .room.active .footprint:nth-child(4) { animation: footprintIn 0.5s var(--ease-arrive) 2.0s forwards; }
+        .room.active .footprint:nth-child(5) { animation: footprintIn 0.5s var(--ease-arrive) 2.4s forwards; }
+        .room.active .footprint:nth-child(6) { animation: footprintIn 0.5s var(--ease-arrive) 2.8s forwards; }
+        
+        @keyframes footprintIn { 0% { opacity: 0; transform: scale(0.6) rotate(var(--rotate, 0deg)); } 30% { opacity: 0.15; } 100% { opacity: 0.08; transform: scale(1) rotate(var(--rotate, 0deg)); } }
+        
+        .path-line { position: absolute; bottom: 25%; left: 5%; right: 5%; height: 2px; background: linear-gradient(90deg, rgba(74, 144, 226, 0.15) 0%, rgba(99, 179, 237, 0.3) 50%, rgba(66, 153, 225, 0.4) 100%); border-radius: 2px; opacity: 0; transition: opacity 0.8s ease 3.5s; }
+        .room.active .path-line { opacity: 1; }
+        
+        .milestone-labels { display: flex; justify-content: space-between; width: 100%; max-width: 300px; padding: 0 5%; gap: 2rem; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-breath) 3.8s; }
+        .room.active .milestone-labels { opacity: 1; transform: translateY(0); }
+        
+        .milestone-stat { text-align: center; }
+        .milestone-stat__value { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--text-dark); display: block; }
+        .milestone-stat__label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* ===== TILE 3: ASSESSMENT ===== */
+        .room[data-index="2"] .room__content { padding-top: 1rem; padding-bottom: 1rem; justify-content: flex-start; padding-top: 2rem; }
+        
+        /* MOBILE TILE 3 FIXES: Floating icon reposition and layout adjustments */
+        @media (max-width: 768px) {
+            .room[data-index="2"] .room__content {
+                padding-top: 1.5rem !important;
+                justify-content: center !important;
+            }
+            
+            .method-tile__headline {
+                text-align: center !important;
+                padding-left: 0 !important;
+                margin-bottom: 1.5rem !important;
+                font-size: 1.1rem !important;
+            }
+            
+            .method-flow {
+                max-width: 100% !important;
+                gap: 1rem !important;
+                padding: 0 0.5rem;
+            }
+            
+            .method-step {
+                padding: 0.875rem !important;
+                gap: 0.75rem !important;
+            }
+            
+            .method-step__icon {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.25rem !important;
+            }
+            
+            .method-step__label {
+                font-size: 0.75rem !important;
+            }
+            
+            .method-step__blurb {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        .method-tile__headline { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--text-dark); margin-bottom: 2rem; opacity: 0; transition: opacity 0.6s var(--ease-breath) 0.2s; width: 100%; }
+        .room.active .method-tile__headline { opacity: 1; }
+        
+        .method-flow { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 280px; align-items: stretch; }
+        
+        .method-step { display: flex; align-items: center; gap: 1rem; opacity: 0; transform: translateX(-20px); padding: 1rem; background: rgba(255, 255, 255, 0.6); border-radius: 16px; border: 1px solid rgba(74, 144, 226, 0.2); }
+        .room.active .method-step[data-step="1"] { animation: stepSlideIn 0.6s var(--ease-arrive) 0.4s forwards; }
+        .room.active .method-step[data-step="2"] { animation: stepSlideIn 0.6s var(--ease-arrive) 0.8s forwards; }
+        .room.active .method-step[data-step="3"] { animation: stepSlideIn 0.6s var(--ease-arrive) 1.2s forwards; }
+        
+        @keyframes stepSlideIn { to { opacity: 1; transform: translateX(0); } }
+        
+        .method-step__icon { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--tile-3), var(--tile-2)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3); flex-shrink: 0; }
+        .method-step__content { text-align: left; flex: 1; }
+        .method-step__label { font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.25rem; }
+        .method-step__blurb { font-family: var(--font-body); font-size: 0.85rem; color: var(--text-light); display: block; line-height: 1.4; }
+        
+        /* ===== TILE 4: TOOLKIT ===== */
+        .tools-tile__headline { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; padding-top: 0.5rem; position: relative; z-index: 25; opacity: 0; transition: opacity 0.6s var(--ease-breath) 0.2s; }
+        .room.active .tools-tile__headline { opacity: 1; }
+        
+        /* MOBILE TILE 4 FIXES */
+        @media (max-width: 768px) {
+            .tools-tile__headline {
+                font-size: 1.1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .tools-grid {
+                width: 200px !important;
+                height: 200px !important;
+                margin: 0.5rem auto !important;
+            }
+            
+            .package-bloom {
+                width: 56px !important;
+                height: 56px !important;
+                font-size: 1.5rem !important;
+            }
+            
+            .tool-node__icon {
+                width: 42px !important;
+                height: 42px !important;
+                font-size: 1.1rem !important;
+            }
+            
+            .tool-node span {
+                font-size: 0.6rem !important;
+                padding: 0.15rem 0.3rem !important;
+            }
+            
+            .tools-tile__tagline {
+                font-size: 0.8rem !important;
+                margin-top: 0.5rem !important;
+            }
+        }
+        
+        .tools-grid { position: relative; width: 240px; height: 240px; margin: 1rem auto; z-index: 10; }
+        .tools-grid__center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+        
+        .package-bloom { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--tile-3), var(--tile-4)); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: white; position: relative; opacity: 0; transform: scale(0.8); }
+        .room.active .package-bloom { animation: packageBloom 0.8s var(--ease-arrive) 0.2s forwards; }
+        
+        @keyframes packageBloom { 0% { opacity: 0; transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        
+        .package-bloom__ring { position: absolute; inset: -8px; border: 2px solid var(--tile-3); border-radius: 50%; opacity: 0; transform: scale(0.8); }
+        .room.active .package-bloom__ring { animation: ringExpand 0.6s ease-out 0.5s forwards; }
+        
+        @keyframes ringExpand { to { opacity: 0; transform: scale(1.5); } }
+        
+        .tools-grid__items { position: absolute; inset: 0; }
+        
+        .tool-node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; }
+        .tool-node[data-tool="recipes"] { --angle: -90deg; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)); }
+        .tool-node[data-tool="tracker"] { --angle: 0deg; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)); }
+        .tool-node[data-tool="guides"] { --angle: 90deg; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)); }
+        .tool-node[data-tool="community"] { --angle: 180deg; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)); }
+        
+        .room.active .tool-node[data-tool="recipes"] { animation: toolPop 0.5s var(--transition-spring) 0.8s forwards; }
+        .room.active .tool-node[data-tool="tracker"] { animation: toolPop 0.5s var(--transition-spring) 1.0s forwards; }
+        .room.active .tool-node[data-tool="guides"] { animation: toolPop 0.5s var(--transition-spring) 1.2s forwards; }
+        .room.active .tool-node[data-tool="community"] { animation: toolPop 0.5s var(--transition-spring) 1.4s forwards; }
+        
+        @keyframes toolPop { 0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)) scale(0); } 60% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)) scale(1.15); } 100% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-90px) rotate(calc(var(--angle) * -1)) scale(1); } }
+        
+        .tool-node__icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: var(--tile-4); box-shadow: 0 4px 12px rgba(30, 58, 95, 0.1); border: 1px solid rgba(74, 144, 226, 0.2); z-index: 11; }
+        .tool-node span { font-family: var(--font-display); font-size: 0.65rem; font-weight: 600; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255, 255, 255, 0.95); padding: 0.2rem 0.4rem; border-radius: 100px; white-space: nowrap; margin-top: 0.3rem; z-index: 12; }
+        
+        .tools-tile__tagline { font-family: var(--font-serif); font-style: italic; font-size: 0.85rem; color: var(--text-medium); margin-top: 1rem; position: relative; z-index: 15; padding: 0.3rem 0.8rem; background: rgba(255, 255, 255, 0.7); border-radius: 100px; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-arrive) 1.8s; }
+        .room.active .tools-tile__tagline { opacity: 1; transform: translateY(0); }
+        
+        /* ===== TILE 5: COMPLETION ===== */
+        .arrival-tile__seal { font-family: var(--font-display); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.25em; color: var(--text-light); text-transform: uppercase; padding: 0.4rem 1rem; border: 1px solid rgba(74, 144, 226, 0.3); border-radius: 100px; margin-bottom: 1.5rem; opacity: 0; transform: scale(0.9); }
+        .room.active .arrival-tile__seal { animation: sealArrive 0.6s var(--ease-arrive) 0.3s forwards; }
+        
+        /* MOBILE TILE 5 FIXES */
+        @media (max-width: 768px) {
+            .arrival-tile__seal {
+                font-size: 0.65rem !important;
+                padding: 0.3rem 0.8rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .arrival-tile__headline {
+                font-size: 1.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            .arrival-tile__cta {
+                font-size: 0.9rem !important;
+                padding: 0.6rem 1.25rem !important;
+            }
+            
+            .arrival-doorway {
+                width: 150px !important;
+                height: 100px !important;
+            }
+        }
+        
+        @keyframes sealArrive { to { opacity: 1; transform: scale(1); } }
+        
+        .arrival-tile__headline { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--text-dark); line-height: 1.2; margin-bottom: 1rem; opacity: 0; letter-spacing: -0.02em; text-shadow: 0 2px 20px rgba(74, 144, 226, 0.2); }
+        .room.active .arrival-tile__headline { animation: headlineArrive 0.8s var(--ease-arrive) 0.6s forwards; }
+        
+        @keyframes headlineArrive { to { opacity: 1; } }
+        
+        .arrival-tile__cta { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1rem; color: var(--text-medium); padding: 0.75rem 1.5rem; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 100px; background: rgba(255, 255, 255, 0.6); opacity: 0; transform: scale(0.95); }
+        .room.active .arrival-tile__cta { animation: ctaArrive 0.6s var(--ease-arrive) 1.2s forwards, gentlePulse 3s ease-in-out infinite 2s; }
+        
+        @keyframes ctaArrive { to { opacity: 1; transform: scale(1); } }
+        @keyframes gentlePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.2); } 50% { box-shadow: 0 0 20px 5px rgba(74, 144, 226, 0.15); } }
+        
+        .arrival-doorway { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 180px; height: 120px; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0.9) 100%); border-radius: 90px 90px 0 0; opacity: 0; filter: blur(20px); transition: opacity 1s ease 0.2s; z-index: 1; }
+        .room.active .arrival-doorway { opacity: 0.8; animation: doorwayBreathe 4s ease-in-out infinite 1s; }
+        
+        @keyframes doorwayBreathe { 0%, 100% { opacity: 0.6; filter: blur(20px) brightness(1); } 50% { opacity: 0.9; filter: blur(15px) brightness(1.1); } }
+        
+        .arrival-silhouette { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); width: 60px; height: 100px; opacity: 0; z-index: 2; }
+        .arrival-silhouette::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 80px; background: linear-gradient(180deg, rgba(30, 58, 95, 0) 0%, rgba(30, 58, 95, 0.15) 100%); border-radius: 20px 20px 0 0; filter: blur(8px); }
+        .room.active .arrival-silhouette { opacity: 1; transition: opacity 1s ease 0.8s; animation: silhouetteStep 3s ease-in-out infinite 1.5s; }
+        
+        @keyframes silhouetteStep { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-5px); } }
+        
+        .particle-field { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 3; }
+        
+        .mote { position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.8); border-radius: 50%; bottom: 0; opacity: 0; box-shadow: 0 0 6px 1px rgba(74, 144, 226, 0.5); }
+        .room.active .mote { animation: moteRise 8s ease-out infinite; }
+        .mote:nth-child(1) { left: 30%; animation-delay: 0s; }
+        .mote:nth-child(2) { left: 50%; animation-delay: 1.5s; }
+        .mote:nth-child(3) { left: 70%; animation-delay: 3s; }
+        .mote:nth-child(4) { left: 40%; animation-delay: 4.5s; }
+        .mote:nth-child(5) { left: 60%; animation-delay: 6s; }
+        
+        @keyframes moteRise { 0% { transform: translateY(0) scale(0); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.6; } 100% { transform: translateY(-350px) scale(1.5); opacity: 0; } }
+        
+        /* ===== ARTIFACT LAYER ===== */
+        .artifact-layer { position: absolute; inset: 0; pointer-events: none; z-index: 100; overflow: visible; perspective: 1000px; }
+        @media (max-width: 768px) { .artifact-layer { display: none !important; } }
+        
+        .floating-badge { position: absolute; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(74, 144, 226, 0.15); border-radius: 12px; padding: 0.625rem 1rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 16px rgba(30, 58, 95, 0.08); font-family: var(--font-display); font-size: 0.75rem; font-weight: 500; color: var(--text-dark); opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.8s var(--ease-arrive); }
+        .floating-badge.visible { opacity: 1; transform: translateY(0); animation: gentleHover 5s ease-in-out infinite; }
+        
+        /* FLOATING BADGE REPOSITION FIX: Moved left for better spacing */
+        .floating-badge[data-room="2"] {
+            left: 2% !important; /* Changed from 8% to 2% */
+            top: 18% !important;
+        }
+        
+        @keyframes gentleHover { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        
+        .floating-badge__icon { font-size: 1rem; color: var(--primary-blue); }
+        
+        /* ===== CAROUSEL NAVIGATION ===== */
+        .carousel-nav { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 1.5rem; z-index: 100; }
+        
+        @media (max-width: 480px) {
+            .carousel-nav {
+                gap: 1rem !important;
+                bottom: 16px !important;
+            }
+            
+            .nav-arrow {
+                width: 38px !important;
+                height: 38px !important;
+            }
+            
+            .nav-dot {
+                width: 8px !important;
+                height: 8px !important;
+            }
+        }
+        
+        .nav-arrow { width: 42px; height: 42px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(74, 144, 226, 0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark); font-size: 1rem; box-shadow: 0 4px 14px rgba(30, 58, 95, 0.1); transition: all var(--timing-fast) ease; }
+        .nav-arrow:hover { background: #fff; transform: scale(1.08); box-shadow: 0 6px 20px rgba(30, 58, 95, 0.14); color: var(--primary-blue); }
+        .nav-arrow:focus { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
+        
+        .nav-dots { display: flex; gap: 10px; }
+        
+        .nav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(74, 144, 226, 0.2); border: none; padding: 0; cursor: pointer; transition: all var(--timing-fast) ease; position: relative; overflow: hidden; }
+        .nav-dot::before { content: ''; position: absolute; inset: 0; background: var(--primary-blue); border-radius: 50%; transform: scaleY(0); transform-origin: bottom; transition: transform 0.15s linear; }
+        .nav-dot:hover { background: rgba(74, 144, 226, 0.4); transform: scale(1.15); }
+        .nav-dot:focus { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
+        .nav-dot.active::before { animation: dotProgress 6000ms linear forwards; }
+        
+        @keyframes dotProgress { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+        
+        /* Carousel pause button */
+        .carousel-pause { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(74, 144, 226, 0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; color: var(--text-light); font-size: 0.875rem; transition: all var(--timing-fast) ease; }
+        .carousel-pause:hover { background: white; color: var(--primary-blue); }
+        .carousel-pause[aria-pressed="true"] { background: var(--primary-blue); color: white; }
+        
+        /* ===== HOW IT WORKS - EKG WITH TRAVELING DOT ===== */
+        .how-it-works { background: var(--surface-color); padding: 5rem 2.5rem 2rem; margin-bottom: -4rem; overflow: visible; position: relative; z-index: 10; }
+        
+        .section { padding: 5rem 2.5rem; }
+        @media (max-width: 768px) { .section { padding: 3.5rem 1.5rem; } }
+        
+        .section-header { text-align: center; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .section-header h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; letter-spacing: -0.01em; display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+        .section-header p { color: var(--text-light); font-family: var(--font-display); }
+        
+        .steps-container { max-width: 1000px; margin: 0 auto; position: relative; padding: 2rem 0; }
+        .steps-track { display: flex; justify-content: space-between; position: relative; gap: 2rem; min-height: 300px; align-items: flex-start; padding-top: 40px; }
+        
+        .ekg-container { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: calc(100% - 200px); max-width: 800px; height: 80px; z-index: 1; pointer-events: none; }
+        .ekg-line { width: 100%; height: 100%; overflow: visible; }
+        
+        .ekg-trace { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: drawLine 6s linear infinite; }
+        
+        @media (prefers-reduced-motion: reduce) { .ekg-trace { animation: none; stroke-dashoffset: 0; } }
+        
+        @keyframes drawLine { 0% { stroke-dashoffset: 1400; opacity: 0.4; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0.4; } }
+        
+        .step-node:nth-child(1) .step-badge { animation: badgeSync 6s ease-out infinite; animation-delay: 1.2s; }
+        .step-node:nth-child(2) .step-badge { animation: badgeSync 6s ease-out infinite; animation-delay: 3.0s; }
+        .step-node:nth-child(3) .step-badge { animation: badgeSync 6s ease-out infinite; animation-delay: 4.8s; }
+        
+        @media (prefers-reduced-motion: reduce) { .step-badge { animation: none !important; } }
+        
+        @keyframes badgeSync { 0%, 90% { transform: scale(1); box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3); } 95% { transform: scale(1.1); box-shadow: 0 15px 40px rgba(74, 144, 226, 0.5), 0 0 0 12px rgba(74, 144, 226, 0.1); } 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3); } }
+        
+        .step-node { flex: 1; text-align: center; position: relative; z-index: 10; max-width: 280px; opacity: 0; transform: translateY(30px); transition: all 0.8s var(--transition-spring); pointer-events: auto; }
+        .step-node.in-view { opacity: 1; transform: translateY(0); }
+        
+        .step-badge { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-blue), var(--tile-3)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3); position: relative; border: 4px solid var(--surface-color); cursor: pointer; transition: transform var(--timing-base) ease; }
+        .step-badge:focus { outline: 2px solid var(--primary-blue); outline-offset: 4px; }
+        
+        .step-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(74, 144, 226, 0.15); border-radius: 24px; padding: 1.75rem 1.5rem; box-shadow: 0 8px 24px rgba(30, 58, 95, 0.06), 0 2px 4px rgba(255, 255, 255, 0.5) inset; transition: all 0.4s var(--transition-spring); position: relative; overflow: hidden; cursor: pointer; }
+        .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary-blue), var(--tile-3)); transform: scaleX(0); transform-origin: center; transition: transform 0.4s ease; }
+        .step-node:hover .step-card { transform: translateY(-12px) scale(1.02); box-shadow: 0 20px 40px rgba(30, 58, 95, 0.12), 0 4px 8px rgba(255, 255, 255, 0.8) inset; }
+        .step-node:hover .step-card::before { transform: scaleX(1); }
+        
+        .step-icon-wrap { width: 48px; height: 48px; background: var(--bg-color); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.4rem; color: var(--text-light); transition: all 0.4s var(--transition-spring); }
+        .step-node:hover .step-icon-wrap { transform: scale(1.15) rotate(-5deg); background: linear-gradient(135deg, #E6F3FF, var(--primary-blue-light)); color: var(--primary-blue); }
+        
+        .step-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+        .step-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; margin: 0; }
+        
+        @media (max-width: 768px) { .how-it-works { padding: 3rem 1.5rem; } .steps-track { flex-direction: column; align-items: center; gap: 3rem; padding-top: 0; } .ekg-container { display: none; } .steps-track::before { content: ''; position: absolute; top: 40px; bottom: 40px; left: 50%; width: 3px; background: linear-gradient(to bottom, var(--primary-blue), var(--tile-3)); z-index: 1; transform: translateX(-50%); } .step-node { width: 100%; max-width: 320px; } .step-badge { width: 64px; height: 64px; font-size: 1.25rem; animation: none !important; } }
+        
+        @media (prefers-reduced-motion: reduce) { .ekg-trace, .step-badge { animation: none; } .ekg-trace { stroke-dashoffset: 0; } }
+        
+        /* ===== TRIPTYCH - INTEGRATED FROM CODE 1 ===== */
+        .women-showcase { padding: 2rem 2.5rem 8rem; background: linear-gradient(180deg, var(--bg-color) 0%, #EDF5FF 50%, #E1EFFF 100%); overflow: visible; position: relative; margin-top: 0; }
+        
+        .triptych-wrapper { max-width: 1200px; margin: 0 auto; position: relative; min-height: 480px; height: auto; display: grid; grid-template-columns: 1fr 1.3fr 1fr; align-items: end; justify-items: center; opacity: 0; transform: translateY(30px); transition: all 0.8s var(--transition-spring); }
+        .triptych-wrapper.in-view { opacity: 1; transform: translateY(0); }
+        
+        .frame-backdrop { position: absolute; width: 85%; height: 380px; left: 50%; transform: translateX(-50%); bottom: 0; background: radial-gradient(ellipse at 30% 20%, rgba(74, 144, 226, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(99, 179, 237, 0.08) 0%, transparent 50%), linear-gradient(145deg, rgba(255, 253, 250, 0.98) 0%, rgba(248, 250, 252, 0.95) 30%, rgba(247, 240, 235, 0.92) 70%, rgba(255, 249, 245, 0.9) 100%); border: 1px solid rgba(74, 144, 226, 0.2); border-bottom: none; border-radius: 48px 48px 0 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(74, 144, 226, 0.1), 0 30px 60px -20px rgba(30, 58, 95, 0.1), inset 0 0 100px rgba(74, 144, 226, 0.04); z-index: 1; overflow: hidden; }
+        
+        .frame-backdrop::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; }
+        
+        .side-woman { position: relative; z-index: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+        .side-woman.left { grid-column: 1; }
+        .side-woman.right { grid-column: 3; }
+        
+        .side-woman img { height: 360px; width: auto; object-fit: contain; filter: none; opacity: 0.92; }
+        
+        .center-woman { position: relative; z-index: 10; grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; transform: translateY(40px); margin-bottom: -40px; transition: transform 0.6s var(--ease-soft); }
+        .center-woman img { height: 480px; width: auto; object-fit: contain; filter: none; }
+        .center-woman:hover { transform: translateY(40px) scale(1.02); }
+        
+        .triptych-labels { position: absolute; bottom: -4rem; left: 0; right: 0; display: grid; grid-template-columns: 1fr 1.3fr 1fr; justify-items: center; align-items: baseline; pointer-events: none; z-index: 20; perspective: 600px; perspective-origin: center center; }
+        
+        .woman-label { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: var(--text-light); text-transform: lowercase; font-weight: 400; opacity: 0.6; text-align: center; width: 100%; letter-spacing: -0.02em; transform-style: preserve-3d; transition: all 0.5s ease; text-shadow: 0 2px 4px rgba(122, 98, 75, 0.08), 0 8px 16px rgba(122, 98, 75, 0.04); }
+        
+        .woman-label:first-child { transform: rotateY(35deg) translateZ(-60px) translateX(20px) scale(0.85); opacity: 0.45; filter: blur(0.3px); }
+        .woman-label.center { color: var(--text-dark); font-weight: 600; font-size: 1.8rem; opacity: 1; transform: translateZ(30px) scale(1.05); text-shadow: 0 2px 6px rgba(255,255,255,0.9), 0 4px 12px rgba(74, 144, 226, 0.2); }
+        .woman-label:last-child { transform: rotateY(-35deg) translateZ(-60px) translateX(-20px) scale(0.85); opacity: 0.45; filter: blur(0.3px); }
+        
+        .woman-label.center::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140%; height: 140%; background: radial-gradient(ellipse at center, rgba(74, 144, 226, 0.1) 0%, transparent 70%); filter: blur(25px); z-index: -1; pointer-events: none; border-radius: 50%; }
+        
+        /* TRIPTYCH MOBILE FIXES: Comprehensive responsive handling */
+        @media (max-width: 900px) {
+            .women-showcase {
+                padding: 1rem 1rem 6rem !important;
+                margin-top: -2rem !important;
+            }
+            
+            .triptych-wrapper {
+                min-height: 380px !important;
+                height: auto !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                gap: 0.5rem !important;
+                padding-bottom: 3rem !important;
+            }
+            
+            .frame-backdrop {
+                width: 98% !important;
+                height: 260px !important;
+                border-radius: 24px 24px 0 0 !important;
+                background: linear-gradient(145deg, rgba(255, 253, 250, 0.95) 0%, rgba(248, 250, 252, 0.92) 100%) !important;
+            }
+            
+            .side-woman img {
+                height: 220px !important;
+                max-width: 85% !important;
+                object-fit: contain !important;
+            }
+            
+            .center-woman {
+                transform: translateY(20px) !important;
+                margin-bottom: -20px !important;
+                z-index: 10 !important;
+            }
+            
+            .center-woman img {
+                height: 280px !important;
+                max-width: 90% !important;
+            }
+            
+            .center-woman:hover {
+                transform: translateY(20px) scale(1.02) !important;
+            }
+            
+            .triptych-labels {
+                bottom: 1rem !important;
+                display: flex !important;
+                justify-content: space-around !important;
+                width: 100% !important;
+                gap: 0 !important;
+                perspective: none !important;
+                grid-template-columns: none !important;
+            }
+            
+            .woman-label {
+                font-size: 1rem !important;
+                transform: none !important;
+                opacity: 0.8 !important;
+                filter: none !important;
+            }
+            
+            .woman-label.center {
+                font-size: 1.2rem !important;
+                transform: none !important;
+            }
+            
+            .woman-label.center::after {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .triptych-wrapper {
+                min-height: 320px !important;
+            }
+            
+            .side-woman img {
+                height: 180px !important;
+            }
+            
+            .center-woman img {
+                height: 240px !important;
+            }
+            
+            .frame-backdrop {
+                height: 220px !important;
+                border-radius: 20px 20px 0 0 !important;
+            }
+            
+            .woman-label {
+                font-size: 0.9rem !important;
+            }
+            
+            .woman-label.center {
+                font-size: 1.1rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .triptych-wrapper {
+                min-height: 280px !important;
+                padding-bottom: 2.5rem !important;
+            }
+            
+            .side-woman img {
+                height: 150px !important;
+            }
+            
+            .center-woman img {
+                height: 200px !important;
+            }
+            
+            .frame-backdrop {
+                height: 180px !important;
+                border-radius: 16px 16px 0 0 !important;
+            }
+            
+            .triptych-labels {
+                bottom: 0.5rem !important;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .triptych-wrapper {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            
+            .woman-label {
+                transform: none !important;
+                filter: none !important;
+            }
+            
+            .center-woman {
+                transform: translateY(20px) !important;
+            }
+            
+            .center-woman:hover {
+                transform: translateY(20px) !important;
+            }
+        }
+        
+        /* ===== TRUST SIGNALS ===== */
+        .trust-signals { background: var(--bg-color); padding: 4rem 2.5rem; }
+        .trust-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        @media (max-width: 768px) { .trust-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+        .trust-item { text-align: center; padding: 1.5rem; border-radius: 20px; transition: all var(--timing-base) ease; background: rgba(255,255,255,0.6); border: 1px solid rgba(74, 144, 226, 0.1); }
+        .trust-item:hover { background: rgba(255,255,255,0.9); transform: translateY(-3px); box-shadow: 0 12px 24px rgba(74, 144, 226, 0.1); }
+        .trust-item__icon { width: 52px; height: 52px; border-radius: 50%; background: var(--primary-blue-light); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.875rem; font-size: 1.4rem; color: white; }
+        .trust-item h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.3rem; }
+        .trust-item p { font-size: 0.875rem; color: var(--text-light); }
+        
+        /* ===== FEATURE SHOWCASE ===== */
+        .features-section { background: var(--bg-color); padding: 4rem 2.5rem; position: relative; }
+        @media (max-width: 768px) { .features-section { padding: 3rem 1.5rem; } }
+        .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; max-width: 1400px; margin: 0 auto; transition: filter 0.5s ease, opacity 0.5s ease; }
+        @media (max-width: 1200px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .feature-grid { grid-template-columns: 1fr; } }
+        .feature-grid.fogged { filter: blur(12px); opacity: 0.25; pointer-events: none; }
+        
+        .feature-tile { background: var(--surface-color); border-radius: 24px; border: 1px solid rgba(74, 144, 226, 0.1); overflow: hidden; transition: all 0.4s var(--transition-smooth); min-height: 280px; display: flex; flex-direction: row; position: relative; --accent: var(--tile-1); }
+        .feature-tile:hover { box-shadow: 0 16px 32px -8px rgba(30, 58, 95, 0.12); transform: translateY(-4px); }
+        
+        .tile-progress-bar { position: absolute; bottom: 0; left: 15%; width: 70%; height: 3px; background: rgba(74, 144, 226, 0.1); border-radius: 3px; overflow: hidden; opacity: 0; transition: opacity 0.2s ease; z-index: 10; }
+        .feature-tile.hover-active .tile-progress-bar { opacity: 1; }
+        .tile-progress-bar__fill { height: 100%; width: 0%; background: var(--accent); border-radius: 3px; transition: width 1s linear; }
+        .feature-tile.hover-active .tile-progress-bar__fill { width: 100%; }
+        
+        .feature-tile:nth-child(1) { --accent: var(--tile-1); }
+        .feature-tile:nth-child(2) { --accent: var(--tile-2); }
+        .feature-tile:nth-child(3) { --accent: var(--tile-3); }
+        .feature-tile:nth-child(4) { --accent: var(--tile-4); }
+        .feature-tile:nth-child(5) { --accent: var(--tile-5); }
+        .feature-tile:nth-child(6) { --accent: var(--tile-6); }
+        .feature-tile:nth-child(7) { --accent: var(--tile-7); }
+        .feature-tile:nth-child(8) { --accent: var(--tile-8); }
+        
+        .tile__content { flex: 1; padding: 1.5rem; display: flex; flex-direction: column; }
+        .tile__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 0.75rem; }
+        .tile__icon { width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: #fff; box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2); transition: transform var(--timing-base) ease; }
+        .feature-tile:hover .tile__icon { transform: scale(1.08) rotate(-5deg); }
+        .tile__badge { font-family: var(--font-display); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.3rem 0.65rem; border-radius: 100px; text-transform: uppercase; white-space: nowrap; background: var(--accent); color: white; }
+        .tile__title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; letter-spacing: -0.01em; line-height: 1.3; }
+        .tile__preview { font-size: 0.85rem; color: var(--text-light); line-height: 1.55; flex: 1; }
+        .tile__trigger { width: 56px; min-width: 56px; background: linear-gradient(90deg, rgba(74, 144, 226, 0.02) 0%, rgba(74, 144, 226, 0.05) 100%); border-left: 1px solid rgba(74, 144, 226, 0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--timing-base) ease; }
+        .tile__trigger:hover { background: linear-gradient(90deg, rgba(74, 144, 226, 0.04) 0%, var(--accent) 100%); }
+        .tile__trigger-inner { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--text-light); transition: all var(--timing-base) ease; }
+        .tile__trigger:hover .tile__trigger-inner { color: #fff; transform: translateX(4px); }
+        .tile__trigger-inner i { font-size: 1.2rem; }
+        .tile__trigger-inner span { font-family: var(--font-display); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; writing-mode: vertical-rl; }
+        
+        /* Feature Modal */
+        .feature-modal { position: fixed; inset: 0; z-index: 1001; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; visibility: hidden; transition: all 0.5s var(--transition-smooth); }
+        .feature-modal.active { opacity: 1; visibility: visible; }
+        .feature-modal__backdrop { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(248, 250, 252, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%); backdrop-filter: blur(20px); cursor: pointer; }
+        .feature-modal__panel { position: relative; width: 100%; max-width: 700px; max-height: 80vh; overflow-y: auto; padding: 2.5rem; background: transparent; transform: translateY(30px) scale(0.95); transition: transform 0.5s var(--transition-smooth); }
+        .feature-modal.active .feature-modal__panel { transform: translateY(0) scale(1); }
+        .feature-modal__panel::-webkit-scrollbar { width: 6px; }
+        .feature-modal__panel::-webkit-scrollbar-thumb { background: rgba(74, 144, 226, 0.2); border-radius: 3px; }
+        .modal__close { position: sticky; top: 0; float: right; width: 48px; height: 48px; border-radius: 50%; background: rgba(74, 144, 226, 0.1); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: var(--text-dark); transition: all var(--timing-base) ease; z-index: 10; margin-bottom: -48px; }
+        .modal__close:hover { background: var(--primary-blue); color: #fff; transform: rotate(90deg); }
+        .modal__close:focus { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
+        .modal__content { background: rgba(255, 255, 255, 0.8); border-radius: 24px; padding: 2rem; border: 1px solid rgba(74, 144, 226, 0.15); }
+        .modal__header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .modal__icon { width: 64px; height: 64px; border-radius: 16px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: white; }
+        .modal__title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-dark); }
+        .modal__description { color: var(--text-medium); margin-bottom: 1.5rem; line-height: 1.7; }
+        .modal__features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        @media (max-width: 600px) { .modal__features { grid-template-columns: 1fr; } }
+        .modal__feature { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-color); border-radius: 12px; font-size: 0.9rem; }
+        .modal__feature i { color: var(--accent); font-size: 1.1rem; }
+        .modal__price { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
+        .modal__price span { font-size: 1rem; font-weight: 400; color: var(--text-light); }
+        
+        /* ===== PRICING SECTION ===== */
+        .pricing-section { background: linear-gradient(180deg, #EDF5FF 0%, var(--bg-color) 100%); padding: 5rem 2.5rem; }
+        .pricing-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        @media (max-width: 1024px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
+        
+        .pricing-card { background: var(--surface-color); border-radius: 20px; padding: 1.75rem; border: 1px solid rgba(74, 144, 226, 0.1); transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(74, 144, 226, 0.15); border-color: rgba(74, 144, 226, 0.3); }
+        .pricing-card.featured { border-color: var(--primary-blue); transform: scale(1.02); }
+        .pricing-card.featured:hover { transform: scale(1.02) translateY(-8px); }
+        
+        .pricing-card__badge { position: absolute; top: 1rem; right: 1rem; background: var(--primary-blue); color: white; font-size: 0.65rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 100px; text-transform: uppercase; }
+        .pricing-card__icon { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.35rem; margin-bottom: 1rem; }
+        .pricing-card__title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .pricing-card__desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.5; }
+        .pricing-card__price { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem; }
+        .pricing-card__price span { font-size: 0.875rem; font-weight: 400; color: var(--text-light); }
+        
+        /* ===== FOOTER ===== */
+        .footer { background: var(--text-dark); color: white; padding: 4rem 2.5rem 2rem; }
+        .footer__inner { max-width: 1280px; margin: 0 auto; }
+        .footer__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        @media (max-width: 768px) { .footer__top { flex-direction: column; gap: 1.5rem; text-align: center; } }
+        .footer__brand { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; }
+        .footer__brand-icon { width: 40px; height: 40px; background: var(--primary-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .footer__tagline { font-family: var(--font-serif); font-style: italic; opacity: 0.7; font-size: 1rem; }
+        .footer__links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .footer__links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color var(--timing-base) ease; position: relative; }
+        .footer__links a:hover { color: var(--primary-blue-light); }
+        .footer__links a:focus { outline: 2px solid var(--primary-blue-light); outline-offset: 4px; }
+        .footer__bottom { text-align: center; opacity: 0.4; font-size: 0.85rem; }
+        
+        .scroll-reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s ease; }
+        .scroll-reveal.in-view { opacity: 1; transform: translateY(0); }
+        
+        @media (pointer: coarse) { .btn, .nav-arrow, .nav-dot, .step-badge, .tile__trigger { min-height: 44px; min-width: 44px; } }
+        
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <nav class="nav" aria-label="Main navigation">
+        <div class="nav__inner">
+            <a href="#" class="logo" aria-label="AuraFlow home">
+                <div class="logo__icon" aria-hidden="true"><i class="ph ph-waves"></i></div>
+                <span>AuraFlow</span>
+            </a>
+            <ul class="nav__links" role="menubar">
+                <li role="none"><a href="#how-it-works" class="nav__link" role="menuitem">How It Works</a></li>
+                <li role="none"><a href="#features" class="nav__link" role="menuitem">Components</a></li>
+                <li role="none"><a href="#pricing" class="nav__link" role="menuitem">Explore</a></li>
+            </ul>
+            <a href="#features" class="btn btn--primary">Explore Features</a>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero__inner">
+                <div class="hero__content">
+                    <p class="hero__tagline">premium conversion experiences</p>
+                    
+                    <h1 id="hero-heading" class="hero__headline">
+                        <span class="headline-rotator" id="headlineRotator">
+                            <span class="headline-text active" data-index="0">premium UX,</span>
+                            <span class="headline-text" data-index="1">intelligent journeys,</span>
+                            <span class="headline-text" data-index="2">conversion optimized,</span>
+                            <span class="headline-text" data-index="3">modular components,</span>
+                            <span class="headline-text" data-index="4">ready to deploy,</span>
+                        </span>
+                        <em>your way</em>
+                    </h1>
+                    
+                    <p class="hero__sub">premium conversion components for modern brands. increase engagement by 300% with our battle-tested UX patterns.</p>
+                    <div class="hero__cta-group">
+                        <a href="#features" class="btn btn--primary">View Components</a>
+                        <a href="#how-it-works" class="btn btn--ghost">See How It Works</a>
+                    </div>
+                </div>
+                
+                <div class="hero__visual">
+                    <div class="spatial-stage" id="spatialStage" role="region" aria-label="Feature carousel" aria-roledescription="carousel">
+                        <button class="carousel-pause" id="pauseBtn" aria-label="Pause carousel" aria-pressed="false" title="Pause autoplay">
+                            <i class="ph ph-pause" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div class="artifact-layer" id="artifactLayer" aria-hidden="true">
+                            <div class="floating-badge" data-room="1" style="top: 25%; left: 5%; animation-delay: 0.4s;">
+                                <i class="ph ph-timer floating-badge__icon" aria-hidden="true"></i>
+                                <span>5-step journey</span>
+                            </div>
+                            <div class="floating-badge" data-room="1" style="top: 30%; right: 5%; animation-delay: 0.6s;">
+                                <i class="ph ph-trend-up floating-badge__icon" aria-hidden="true"></i>
+                                <span>40% faster conversions</span>
+                            </div>
+                            <!-- REPOSITIONED: Moved from 8% to 2% for better spacing -->
+                            <div class="floating-badge" data-room="2" style="top: 20%; left: 2%; animation-delay: 0.5s; display: none;">
+                                <i class="ph ph-clipboard-text floating-badge__icon" aria-hidden="true"></i>
+                                <span>personalized protocol</span>
+                            </div>
+                        </div>                    
+                        <div class="carousel-box" id="carouselBox">
+                            <!-- TILE 1: BRAND IDENTITY -->
+                            <div class="room active" data-index="0" role="group" aria-roledescription="slide" aria-label="1 of 5: Welcome" aria-hidden="false">
+                                <div class="room__bg room__bg--brand"></div>
+                                <div class="room__content">
+                                    <div class="hero-tile__logo-wrap">
+                                        <div class="hero-tile__logo"><span>Aura</span>Flow</div>
+                                    </div>
+                                    <p class="hero-tile__seal">A/B tested · user-validated</p>
+                                    <p class="hero-tile__tagline">intelligent conversion journeys</p>
+                                </div>
+                            </div>
+                            
+                            <!-- TILE 2: JOURNEY MAPPING -->
+                            <div class="room" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 5: Map Your Path" aria-hidden="true" inert>
+                                <div class="room__bg room__bg--journey"></div>
+                                <div class="room__content">
+                                    <p class="journey-tile__headline">Map Your Path</p>
+                                    <div class="journey-visual">
+                                        <div class="stepping-stones">
+                                            <div class="stone" data-step="1">1</div>
+                                            <div class="stone" data-step="2">2</div>
+                                            <div class="stone" data-step="3">3</div>
+                                            <div class="stone" data-step="4">4</div>
+                                            <div class="stone" data-step="check" aria-label="Complete">✓</div>
+                                        </div>
+                                        <div class="footprint-trail" aria-hidden="true">
+                                            <div class="footprint"></div>
+                                            <div class="footprint"></div>
+                                            <div class="footprint"></div>
+                                            <div class="footprint"></div>
+                                            <div class="footprint"></div>
+                                            <div class="footprint"></div>
+                                        </div>
+                                        <div class="path-line" aria-hidden="true"></div>
+                                    </div>
+                                    <div class="milestone-labels">
+                                        <div class="milestone-stat">
+                                            <span class="milestone-stat__value">5 steps</span>
+                                            <span class="milestone-stat__label">guided flow</span>
+                                        </div>
+                                        <div class="milestone-stat">
+                                            <span class="milestone-stat__value">5 milestones</span>
+                                            <span class="milestone-stat__label">track progress</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- TILE 3: ASSESSMENT -->
+                            <div class="room" data-index="2" role="group" aria-roledescription="slide" aria-label="3 of 5: Share Your Goals" aria-hidden="true" inert>
+                                <div class="room__bg room__bg--method"></div>
+                                <div class="room__content">
+                                    <p class="method-tile__headline">Share Your Goals</p>
+                                    <div class="method-flow">
+                                        <div class="method-step" data-step="1">
+                                            <div class="method-step__icon" aria-hidden="true">
+                                                <i class="ph ph-clipboard-text"></i>
+                                            </div>
+                                            <div class="method-step__content">
+                                                <span class="method-step__label">Assess</span>
+                                                <span class="method-step__blurb">quick intake form</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="method-step" data-step="2">
+                                            <div class="method-step__icon" aria-hidden="true">
+                                                <i class="ph ph-fingerprint"></i>
+                                            </div>
+                                            <div class="method-step__content">
+                                                <span class="method-step__label">Analyze</span>
+                                                <span class="method-step__blurb">AI-powered matching</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="method-step" data-step="3">
+                                            <div class="method-step__icon" aria-hidden="true">
+                                                <i class="ph ph-check-circle"></i>
+                                            </div>
+                                            <div class="method-step__content">
+                                                <span class="method-step__label">Match</span>
+                                                <span class="method-step__blurb">perfect fit found</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- TILE 4: TOOLKIT -->
+                            <div class="room" data-index="3" role="group" aria-roledescription="slide" aria-label="4 of 5: Your Complete Toolkit" aria-hidden="true" inert>
+                                <div class="room__bg room__bg--tools"></div>
+                                <div class="room__content">
+                                    <p class="tools-tile__headline">Your Complete Toolkit</p>
+                                    <div class="tools-grid">
+                                        <div class="tools-grid__center">
+                                            <div class="package-bloom" aria-hidden="true">
+                                                <i class="ph ph-package"></i>
+                                                <div class="package-bloom__ring"></div>
+                                            </div>
+                                        </div>
+                                        <div class="tools-grid__items">
+                                            <div class="tool-node" data-tool="recipes">
+                                                <div class="tool-node__icon" aria-hidden="true"><i class="ph ph-cooking-pot"></i></div>
+                                                <span>Content</span>
+                                            </div>
+                                            <div class="tool-node" data-tool="tracker">
+                                                <div class="tool-node__icon" aria-hidden="true"><i class="ph ph-chart-line-up"></i></div>
+                                                <span>Analytics</span>
+                                            </div>
+                                            <div class="tool-node" data-tool="guides">
+                                                <div class="tool-node__icon" aria-hidden="true"><i class="ph ph-book-open"></i></div>
+                                                <span>Guides</span>
+                                            </div>
+                                            <div class="tool-node" data-tool="community">
+                                                <div class="tool-node__icon" aria-hidden="true"><i class="ph ph-users"></i></div>
+                                                <span>Connect</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="tools-tile__tagline">everything you need</p>
+                                </div>
+                            </div>
+                            
+                            <!-- TILE 5: COMPLETION -->
+                            <div class="room" data-index="4" role="group" aria-roledescription="slide" aria-label="5 of 5: Begin Your Journey" aria-hidden="true" inert>
+                                <div class="room__bg room__bg--belonging"></div>
+                                <div class="arrival-doorway" aria-hidden="true"></div>
+                                <div class="particle-field" aria-hidden="true">
+                                    <div class="mote"></div>
+                                    <div class="mote"></div>
+                                    <div class="mote"></div>
+                                    <div class="mote"></div>
+                                    <div class="mote"></div>
+                                </div>
+                                <div class="arrival-silhouette" aria-hidden="true"></div>
+                                <div class="room__content">
+                                    <div class="arrival-tile__seal">Transform Ready</div>
+                                    <p class="arrival-tile__headline">Begin Your Journey</p>
+                                    <div class="arrival-tile__cta">Deploy in Minutes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-nav" role="tablist" aria-label="Carousel navigation">
+                            <button class="nav-arrow" id="prevBtn" aria-label="Previous slide" tabindex="-1">
+                                <i class="ph ph-caret-left" aria-hidden="true"></i>
+                            </button>
+                            <div class="nav-dots">
+                                <button class="nav-dot active" data-index="0" style="--duration: 6000ms;" role="tab" aria-label="Slide 1" aria-selected="true"></button>
+                                <button class="nav-dot" data-index="1" style="--duration: 6000ms;" role="tab" aria-label="Slide 2" aria-selected="false"></button>
+                                <button class="nav-dot" data-index="2" style="--duration: 6000ms;" role="tab" aria-label="Slide 3" aria-selected="false"></button>
+                                <button class="nav-dot" data-index="3" style="--duration: 6000ms;" role="tab" aria-label="Slide 4" aria-selected="false"></button>
+                                <button class="nav-dot" data-index="4" style="--duration: 6000ms;" role="tab" aria-label="Slide 5" aria-selected="false"></button>
+                            </div>
+                            <button class="nav-arrow" id="nextBtn" aria-label="Next slide" tabindex="-1">
+                                <i class="ph ph-caret-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        
+                        <div id="carousel-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- EKG SECTION -->
+        <section id="how-it-works" class="how-it-works" aria-labelledby="how-it-works-heading">
+            <div class="section-header">
+                <h2 id="how-it-works-heading"><i class="ph ph-waves" style="font-size: 2rem; color: var(--primary-blue);" aria-hidden="true"></i>How Our Components Work</h2>
+                <p>Discover → Personalize → Transform</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="ekg-container" aria-hidden="true">
+                    <svg class="ekg-line" viewBox="0 0 1000 80" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="ekgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="var(--tile-3)"/>
+                                <stop offset="50%" stop-color="var(--tile-4)"/>
+                                <stop offset="100%" stop-color="var(--tile-3)"/>
+                            </linearGradient>
+                            
+                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="3" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <line x1="0" y1="40" x2="1000" y2="40" stroke="rgba(122, 98, 75, 0.08)" stroke-width="1"/>
+                        
+                        <path id="heartbeatPath" class="ekg-trace" 
+                              d="M 0,40
+                                 L 140,40
+                                 L 155,40 L 160,12 L 170,68 L 180,40
+                                 L 440,40
+                                 L 490,40 L 500,8 L 510,72 L 520,40
+                                 L 760,40
+                                 L 825,40 L 840,15 L 855,65 L 870,40
+                                 L 1000,40"
+                              fill="none"
+                              stroke="url(#ekgGradient)"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              filter="url(#glow)"/>
+                        
+                        <circle r="5" fill="white" stroke="var(--tile-3)" stroke-width="2" filter="url(#glow)">
+                            <animateMotion dur="6s" repeatCount="indefinite" calcMode="linear">
+                                <mpath href="#heartbeatPath"/>
+                            </animateMotion>
+                            <animate attributeName="r" values="5;6;5" dur="0.5s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <circle cx="160" cy="40" r="0" fill="var(--tile-3)" opacity="0">
+                            <animate attributeName="r" values="0;30;0" dur="6s" repeatCount="indefinite" begin="0.96s"/>
+                            <animate attributeName="opacity" values="0;0.3;0" dur="6s" repeatCount="indefinite" begin="0.96s"/>
+                        </circle>
+                        
+                        <circle cx="500" cy="40" r="0" fill="var(--tile-4)" opacity="0">
+                            <animate attributeName="r" values="0;30;0" dur="6s" repeatCount="indefinite" begin="3.0s"/>
+                            <animate attributeName="opacity" values="0;0.3;0" dur="6s" repeatCount="indefinite" begin="3.0s"/>
+                        </circle>
+                        
+                        <circle cx="840" cy="40" r="0" fill="var(--tile-3)" opacity="0">
+                            <animate attributeName="r" values="0;30;0" dur="6s" repeatCount="indefinite" begin="5.04s"/>
+                            <animate attributeName="opacity" values="0;0.3;0" dur="6s" repeatCount="indefinite" begin="5.04s"/>
+                        </circle>
+                    </svg>
+                </div>
+                
+                <div class="steps-track">
+                    <div class="step-node scroll-reveal" style="--step-index: 0;">
+                        <div class="step-badge" data-step="1">01</div>
+                        <div class="step-card" tabindex="0" role="button" aria-label="Step 1: Discover">
+                            <div class="step-icon-wrap" aria-hidden="true"><i class="ph ph-magnifying-glass"></i></div>
+                            <h3>Discover</h3>
+                            <p>Browse our library of premium UX components designed for conversion optimization.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-node scroll-reveal" style="--step-index: 1;">
+                        <div class="step-badge" data-step="2">02</div>
+                        <div class="step-card" tabindex="0" role="button" aria-label="Step 2: Personalize">
+                            <div class="step-icon-wrap" aria-hidden="true"><i class="ph ph-sliders-horizontal"></i></div>
+                            <h3>Personalize</h3>
+                            <p>Customize colors, content, and interactions to match your brand identity.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-node scroll-reveal" style="--step-index: 2;">
+                        <div class="step-badge" data-step="3">03</div>
+                        <div class="step-card" tabindex="0" role="button" aria-label="Step 3: Transform">
+                            <div class="step-icon-wrap" aria-hidden="true"><i class="ph ph-rocket-launch"></i></div>
+                            <h3>Transform</h3>
+                            <p>Deploy in minutes with our modular, dependency-free code.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- TRIPTYCH SECTION -->
+        <section class="women-showcase" id="women" aria-labelledby="women-heading">
+            <h2 id="women-heading" class="sr-only">For every brand</h2>
+            <div class="triptych-wrapper">
+                <div class="frame-backdrop"></div>
+                
+                <div class="side-woman left">
+                    <img src="https://res.cloudinary.com/dnk8abo2e/image/upload/v1769974909/ChatGPT_Image_Feb_1_2026_11_39_58_AM_euawt5.png" 
+                         alt="" 
+                         width="280" 
+                         height="360"
+                         loading="lazy"
+                         aria-hidden="true">
+                </div>
+                
+                <div class="center-woman">
+                    <img src="https://res.cloudinary.com/dnk8abo2e/image/upload/v1769990600/ChatGPT_Image_Feb_1_2026_04_02_16_PM_lahnwz.png" 
+                         alt="Diverse representation of brands using AuraFlow" 
+                         width="320" 
+                         height="480"
+                         loading="eager">
+                </div>
+                
+                <div class="side-woman right">
+                    <img src="https://res.cloudinary.com/dnk8abo2e/image/upload/v1769974911/ChatGPT_Image_Feb_1_2026_11_36_53_AM_vvbmwa.png" 
+                         alt="" 
+                         width="280" 
+                         height="360"
+                         loading="lazy"
+                         aria-hidden="true">
+                </div>
+                
+                <div class="triptych-labels" aria-hidden="true">
+                    <span class="woman-label">Engage</span>
+                    <span class="woman-label center">Convert</span>
+                    <span class="woman-label">Retain</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="trust-signals" aria-labelledby="trust-heading">
+            <h2 id="trust-heading" class="sr-only">Why choose AuraFlow</h2>
+            <div class="trust-grid">
+                <div class="trust-item scroll-reveal">
+                    <div class="trust-item__icon" aria-hidden="true"><i class="ph ph-flask"></i></div>
+                    <h3>A/B Tested</h3>
+                    <p>Components validated through rigorous user testing</p>
+                </div>
+                <div class="trust-item scroll-reveal">
+                    <div class="trust-item__icon" aria-hidden="true"><i class="ph ph-users-three"></i></div>
+                    <h3>User-Validated</h3>
+                    <p>Built through research with real customers</p>
+                </div>
+                <div class="trust-item scroll-reveal">
+                    <div class="trust-item__icon" aria-hidden="true"><i class="ph ph-headset"></i></div>
+                    <h3>30-Day Support</h3>
+                    <p>Implementation assistance included with every license</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="features" class="features-section">
+            <div class="section-header">
+                <h2><i class="ph ph-squares-four" style="font-size: 2rem; color: var(--primary-blue);" aria-hidden="true"></i>Feature Showcase</h2>
+                <p>Hover to preview component, click to view details</p>
+            </div>
+            
+            <div class="feature-grid" id="featureGrid">
+                <article class="feature-tile scroll-reveal" data-feature="0">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-cards"></i></div>
+                            <span class="tile__badge">Carousel</span>
+                        </div>
+                        <h3 class="tile__title">8-Tile Journey Builder</h3>
+                        <p class="tile__preview">Narrative carousel with 3D transitions, auto-rotation, and progress indicators.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="0">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="1">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-activity"></i></div>
+                            <span class="tile__badge">Monitor</span>
+                        </div>
+                        <h3 class="tile__title">EKG Progress Visualizer</h3>
+                        <p class="tile__preview">Animated heartbeat line with synchronized badge pulses and peak glows.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="1">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="2">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-cube"></i></div>
+                            <span class="tile__badge">3D Hero</span>
+                        </div>
+                        <h3 class="tile__title">3D Triptych Section</h3>
+                        <p class="tile__preview">Perspective-based layout with silhouette imagery and depth effects.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="2">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="3">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-cards-three"></i></div>
+                            <span class="tile__badge">Cards</span>
+                        </div>
+                        <h3 class="tile__title">Expandable Card Grid</h3>
+                        <p class="tile__preview">Hover-to-expand cards with progress bars and modal overlays.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="3">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="4">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-badge-cc"></i></div>
+                            <span class="tile__badge">Metrics</span>
+                        </div>
+                        <h3 class="tile__title">Floating Metric Badges</h3>
+                        <p class="tile__preview">Contextual stats that animate into view with gentle hover effects.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="4">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="5">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-map-trifold"></i></div>
+                            <span class="tile__badge">Map</span>
+                        </div>
+                        <h3 class="tile__title">Interactive Journey Map</h3>
+                        <p class="tile__preview">Stepping stone visualization with footprint trails and milestone tracking.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="5">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="6">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-sparkles"></i></div>
+                            <span class="tile__badge">Ambient</span>
+                        </div>
+                        <h3 class="tile__title">Animated Background System</h3>
+                        <p class="tile__preview">Micro-animations, particle fields, and breathing glow effects.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="6">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+                
+                <article class="feature-tile scroll-reveal" data-feature="7">
+                    <div class="tile__content">
+                        <div class="tile__header">
+                            <div class="tile__icon"><i class="ph ph-palette"></i></div>
+                            <span class="tile__badge">Theme</span>
+                        </div>
+                        <h3 class="tile__title">Complete Theme Package</h3>
+                        <p class="tile__preview">Full design system with CSS variables, transitions, and responsive utilities.</p>
+                    </div>
+                    <div class="tile__trigger" data-feature="7">
+                        <div class="tile__trigger-inner">
+                            <i class="ph ph-arrow-right"></i>
+                            <span>Preview</span>
+                        </div>
+                    </div>
+                    <div class="tile-progress-bar">
+                        <div class="tile-progress-bar__fill"></div>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="feature-modal" id="featureModal">
+                <div class="feature-modal__backdrop" id="modalBackdrop"></div>
+                <div class="feature-modal__panel">
+                    <button class="modal__close" id="modalClose" aria-label="Close modal">
+                        <i class="ph ph-x"></i>
+                    </button>
+                    <div class="modal__content" id="modalContent"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pricing" class="pricing-section">
+            <div class="section-header">
+                <h2><i class="ph ph-currency-dollar" style="font-size: 2rem; color: var(--primary-blue);" aria-hidden="true"></i>Explore Components</h2>
+                <p>View our complete collection of premium UX components</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-cards"></i></div>
+                    <h3 class="pricing-card__title">8-Tile Carousel</h3>
+                    <p class="pricing-card__desc">Narrative journey builder with 3D room transitions and auto-rotation.</p>
+                    <div class="pricing-card__price">$1,500<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('carousel')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-activity"></i></div>
+                    <h3 class="pricing-card__title">EKG Progress Monitor</h3>
+                    <p class="pricing-card__desc">Animated heartbeat visualization with synchronized badge pulses.</p>
+                    <div class="pricing-card__price">$900<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('ekg')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-cube"></i></div>
+                    <h3 class="pricing-card__title">3D Triptych Hero</h3>
+                    <p class="pricing-card__desc">Perspective-based hero section with depth and 3D transforms.</p>
+                    <div class="pricing-card__price">$1,200<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('triptych')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-cards-three"></i></div>
+                    <h3 class="pricing-card__title">Expandable Card Grid</h3>
+                    <p class="pricing-card__desc">Hover-to-expand cards with progress bars and modal overlays.</p>
+                    <div class="pricing-card__price">$1,800<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('cards')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-badge-cc"></i></div>
+                    <h3 class="pricing-card__title">Floating Badges</h3>
+                    <p class="pricing-card__desc">Animated metric badges with gentle hover and entrance effects.</p>
+                    <div class="pricing-card__price">$600<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('badges')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-map-trifold"></i></div>
+                    <h3 class="pricing-card__title">Journey Map</h3>
+                    <p class="pricing-card__desc">Stepping stone visualization with animated footprint trails.</p>
+                    <div class="pricing-card__price">$1,500<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('journey')">View Components</button>
+                </div>
+                
+                <div class="pricing-card scroll-reveal">
+                    <div class="pricing-card__icon"><i class="ph ph-sparkles"></i></div>
+                    <h3 class="pricing-card__title">Ambient Animation Kit</h3>
+                    <p class="pricing-card__desc">Particle systems, breathing glows, and micro-interactions.</p>
+                    <div class="pricing-card__price">$800<span>one-time</span></div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="showDemo('ambient')">View Components</button>
+                </div>
+                
+                <div class="pricing-card featured scroll-reveal">
+                    <span class="pricing-card__badge">Best Value</span>
+                    <div class="pricing-card__icon"><i class="ph ph-package"></i></div>
+                    <h3 class="pricing-card__title">Complete Package</h3>
+                    <p class="pricing-card__desc">All components plus priority support and customization assistance.</p>
+                    <div class="pricing-card__price">$3,500<span>one-time</span></div>
+                    <button class="btn btn--dark" style="width: 100%;" onclick="showDemo('complete')">Explore All</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer" role="contentinfo">
+        <div class="footer__inner">
+            <div class="footer__top">
+                <div class="footer__brand">
+                    <div class="footer__brand-icon"><i class="ph ph-waves"></i></div>
+                    <span>AuraFlow</span>
+                </div>
+                <p class="footer__tagline">intelligent conversion journeys</p>
+            </div>
+            <nav class="footer__links" aria-label="Footer navigation">
+                <a href="https://github.com" target="_blank">GitHub</a>
+                <a href="#">Documentation</a>
+                <a href="#">License</a>
+                <a href="mailto:hello@auraflow.dev">Contact</a>
+            </nav>
+            <div class="footer__bottom">
+                <p>© 2026 AuraFlow · Premium UX Components for Modern Brands</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Feature data
+        const featureData = [
+            { title: '8-Tile Journey Builder', icon: 'ph-cards', price: '$1,500', desc: 'A narrative carousel system that guides users through an 8-step journey with 3D room transitions, spatial animations, and progress indicators.', features: ['6-second auto-rotation', '3D perspective transforms', 'Progress dot animations', 'Touch/swipe support', 'Accessibility compliant'] },
+            { title: 'EKG Progress Visualizer', icon: 'ph-activity', price: '$900', desc: 'Medical-monitor-inspired progress visualization with a drawing line effect, traveling dot, and synchronized badge pulses.', features: ['SVG path animation', 'Synchronized badge pulses', 'Peak glow effects', '6-second loop timing', 'Mobile fallback'] },
+            { title: '3D Triptych Hero', icon: 'ph-cube', price: '$1,200', desc: 'A perspective-based hero section featuring silhouette imagery with depth transforms and 3D label positioning.', features: ['CSS 3D transforms', 'Perspective preservation', 'Responsive depth scaling', 'Silhouette image integration', 'Static side elements'] },
+            { title: 'Expandable Card Grid', icon: 'ph-cards-three', price: '$1,800', desc: 'A grid of interactive cards that expand on hover with progress bars and detailed modal overlays.', features: ['1-second hold expansion', 'Progress bar fill animation', 'Modal overlay system', 'Grid blur backdrop', 'Smooth transitions'] },
+            { title: 'Floating Metric Badges', icon: 'ph-badge-cc', price: '$600', desc: 'Contextual statistics that float into view with gentle animations and 3D perspective transforms.', features: ['Staggered entrance', '3D perspective hover', 'Room-contextual content', 'Auto-show on slide change', 'Performance optimized'] },
+            { title: 'Interactive Journey Map', icon: 'ph-map-trifold', price: '$1,500', desc: 'Stepping stone visualization with animated footprints, milestone markers, and path lines.', features: ['SVG footprint animation', 'Stone appearance sequence', 'Path line drawing', 'Milestone statistics', 'Scroll-triggered reveal'] },
+            { title: 'Ambient Animation Kit', icon: 'ph-sparkles', price: '$800', desc: 'Background micro-animations including particle fields, breathing glows, and gentle drift effects.', features: ['Particle rise system', 'Breathing glow effects', 'Gentle drift animations', 'Mote/particle field', 'Performance-conscious'] },
+            { title: 'Complete Theme Package', icon: 'ph-palette', price: '$3,500', desc: 'Full design system with CSS custom properties, easing functions, and responsive utilities.', features: ['CSS variable system', '8-component integration', 'Responsive breakpoints', 'Documentation included', 'Priority support'] }
+        ];
+
+        // Narrative Carousel Class
+        class NarrativeCarousel {
+            constructor() {
+                this.stage = document.getElementById('spatialStage');
+                this.rooms = document.querySelectorAll('.room');
+                this.headlines = document.querySelectorAll('.headline-text');
+                this.dots = document.querySelectorAll('.nav-dot');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.pauseBtn = document.getElementById('pauseBtn');
+                this.artifactLayer = document.getElementById('artifactLayer');
+                this.liveRegion = document.getElementById('carousel-live-region');
+                this.currentIndex = 0;
+                this.totalRooms = this.rooms.length;
+                this.isTransitioning = false;
+                this.isPaused = false;
+                // SYNCHRONIZED TIMING: All rooms use same duration for headline sync
+                this.durations = [6000, 6000, 6000, 6000, 6000];
+                this.init();
+            }
+            
+            init() {
+                this.prevBtn.addEventListener('click', () => this.navigate(-1));
+                this.nextBtn.addEventListener('click', () => this.navigate(1));
+                this.pauseBtn.addEventListener('click', () => this.togglePause());
+                
+                this.dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        if (i !== this.currentIndex && !this.isTransitioning) this.goTo(i);
+                    });
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.navigate(-1);
+                    if (e.key === 'ArrowRight') this.navigate(1);
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                        this.togglePause();
+                    }
+                });
+                
+                this.showArtifacts(0);
+                this.startAutoPlay();
+                this.stage.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.stage.addEventListener('mouseleave', () => {
+                    if (!this.isPaused) this.startAutoPlay();
+                });
+                
+                // Respect reduced motion preference
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    this.durations = [0, 0, 0, 0, 0];
+                }
+            }
+            
+            togglePause() {
+                this.isPaused = !this.isPaused;
+                this.pauseBtn.setAttribute('aria-pressed', this.isPaused.toString());
+                this.pauseBtn.innerHTML = this.isPaused ? 
+                    '<i class="ph ph-play" aria-hidden="true"></i>' : 
+                    '<i class="ph ph-pause" aria-hidden="true"></i>';
+                this.pauseBtn.setAttribute('aria-label', this.isPaused ? 'Play carousel' : 'Pause carousel');
+                
+                if (this.isPaused) {
+                    this.stopAutoPlay();
+                } else {
+                    this.startAutoPlay();
+                }
+            }
+            
+            navigate(direction) {
+                if (this.isTransitioning) return;
+                let newIndex = this.currentIndex + direction;
+                if (newIndex < 0) newIndex = this.totalRooms - 1;
+                if (newIndex >= this.totalRooms) newIndex = 0;
+                this.goTo(newIndex, direction > 0 ? 'next' : 'prev');
+            }
+            
+            resetAnimations(room) {
+                room.classList.remove('active');
+                void room.offsetHeight;
+            }
+            
+            goTo(newIndex, direction) {
+                if (this.isTransitioning || newIndex === this.currentIndex) return;
+                this.isTransitioning = true;
+                direction = direction || (newIndex > this.currentIndex ? 'next' : 'prev');
+                const currentRoom = this.rooms[this.currentIndex];
+                const nextRoom = this.rooms[newIndex];
+                
+                this.resetAnimations(currentRoom);
+                
+                // Update ARIA states
+                currentRoom.setAttribute('aria-hidden', 'true');
+                currentRoom.setAttribute('inert', '');
+                currentRoom.removeAttribute('tabindex');
+                
+                nextRoom.removeAttribute('aria-hidden');
+                nextRoom.removeAttribute('inert');
+                
+                currentRoom.classList.remove('active');
+                currentRoom.classList.add(direction === 'next' ? 'exit-left' : 'exit-right');
+                
+                setTimeout(() => {
+                    currentRoom.classList.remove('exit-left', 'exit-right');
+                    nextRoom.classList.add('active');
+                }, 80);
+                
+                // Update tabs
+                this.dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === newIndex);
+                    dot.setAttribute('aria-selected', i === newIndex ? 'true' : 'false');
+                });
+                
+                // Announce to screen readers
+                const roomLabel = nextRoom.getAttribute('aria-label');
+                if (this.liveRegion) {
+                    this.liveRegion.textContent = `Showing ${roomLabel}`;
+                }
+                
+                // SYNCHRONIZED HEADLINE: Immediate sync with room transition
+                this.syncHeadline(newIndex);
+                
+                setTimeout(() => {
+                    this.hideArtifacts();
+                    setTimeout(() => this.showArtifacts(newIndex), 300);
+                }, 400);
+                
+                this.currentIndex = newIndex;
+                
+                if (!this.isPaused) this.startAutoPlay();
+                
+                setTimeout(() => { this.isTransitioning = false; }, 1200);
+            }
+            
+            // FIXED: Synchronized headline transition with room change
+            syncHeadline(newIndex) {
+                const current = this.headlines[this.currentIndex];
+                const next = this.headlines[newIndex];
+                
+                // Clear all states first to prevent accumulation
+                this.headlines.forEach(h => {
+                    h.classList.remove('active', 'exit');
+                });
+                
+                // Animate current out
+                current.classList.add('exit');
+                
+                // Bring next in with coordinated timing (150ms matches CSS transition)
+                setTimeout(() => {
+                    current.classList.remove('exit');
+                    next.classList.add('active');
+                }, 150);
+            }
+            
+            showArtifacts(roomIndex) {
+                // Hide all first
+                this.artifactLayer.querySelectorAll('.floating-badge').forEach(badge => {
+                    badge.style.display = 'none';
+                    badge.classList.remove('visible');
+                });
+                
+                // Show relevant ones
+                const artifacts = this.artifactLayer.querySelectorAll(`[data-room="${roomIndex}"]`);
+                artifacts.forEach((artifact, i) => {
+                    artifact.style.display = 'flex';
+                    setTimeout(() => artifact.classList.add('visible'), 200 + (i * 120));
+                });
+            }
+            
+            hideArtifacts() {
+                this.artifactLayer.querySelectorAll('.visible').forEach(a => a.classList.remove('visible'));
+            }
+            
+            startAutoPlay() {
+                this.stopAutoPlay();
+                if (this.durations[this.currentIndex] > 0 && !this.isPaused) {
+                    this.autoPlayTimer = setInterval(() => this.navigate(1), this.durations[this.currentIndex]);
+                }
+            }
+            
+            stopAutoPlay() {
+                if (this.autoPlayTimer) clearInterval(this.autoPlayTimer);
+            }
+        }
+
+        // Delayed Tile Expansion
+        class DelayedTileExpansion {
+            constructor() {
+                this.tiles = document.querySelectorAll('.feature-tile');
+                this.hoverDelay = 1000;
+                this.timers = new Map();
+                this.init();
+            }
+            
+            init() {
+                this.tiles.forEach(tile => {
+                    const trigger = tile.querySelector('.tile__trigger');
+                    if (!trigger) return;
+                    trigger.addEventListener('mouseenter', () => this.startHoverTimer(tile, trigger));
+                    trigger.addEventListener('mouseleave', () => this.cancelHoverTimer(tile));
+                    trigger.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.cancelHoverTimer(tile);
+                        const key = parseInt(trigger.dataset.feature);
+                        openFeatureModal(key);
+                    });
+                });
+            }
+            
+            startHoverTimer(tile, trigger) {
+                tile.classList.add('hover-active');
+                const timer = setTimeout(() => {
+                    const key = parseInt(trigger.dataset.feature);
+                    openFeatureModal(key);
+                    tile.classList.remove('hover-active');
+                    this.timers.delete(tile);
+                }, this.hoverDelay);
+                this.timers.set(tile, timer);
+            }
+            
+            cancelHoverTimer(tile) {
+                tile.classList.remove('hover-active');
+                if (this.timers.has(tile)) clearTimeout(this.timers.get(tile));
+            }
+        }
+
+        // Modal Functions
+        const modal = document.getElementById('featureModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const modalClose = document.getElementById('modalClose');
+        const modalContent = document.getElementById('modalContent');
+        const grid = document.getElementById('featureGrid');
+
+        function openFeatureModal(key) {
+            const data = featureData[key];
+            if (!data) return;
+            
+            grid.classList.add('fogged');
+            
+            modalContent.innerHTML = '<div class="modal__loading"></div>';
+            
+            setTimeout(() => {
+                modalContent.innerHTML = `
+                    <div class="modal__header" style="--accent: var(--tile-${(key % 8) + 1})">
+                        <div class="modal__icon"><i class="ph ${data.icon}"></i></div>
+                        <div>
+                            <h2 class="modal__title">${data.title}</h2>
+                            <div class="modal__price" style="font-size: 1.25rem; margin-bottom: 0;">${data.price}<span style="font-size: 0.875rem; margin-left: 0.5rem; color: var(--text-light);">one-time license</span></div>
+                        </div>
+                    </div>
+                    <p class="modal__description">${data.desc}</p>
+                    <div class="modal__features">
+                        ${data.features.map(f => `<div class="modal__feature"><i class="ph ph-check-circle"></i>${f}</div>`).join('')}
+                    </div>
+                    <button class="btn btn--primary" style="width: 100%;" onclick="alert('Demo: ${data.title}'); closeFeatureModal();">View Live Demo</button>
+                `;
+            }, 300);
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            modalClose.focus();
+        }
+
+        function closeFeatureModal() {
+            modal.classList.remove('active');
+            grid.classList.remove('fogged');
+            document.body.style.overflow = '';
+            setTimeout(() => modalContent.innerHTML = '', 500);
+        }
+
+        function showDemo(type) {
+            alert(`Component Library: ${type}\n\nExplore our ${type} component with interactive preview and documentation. In production, this would display the component in an interactive playground.`);
+        }
+
+        // Event Listeners
+        modalBackdrop.addEventListener('click', closeFeatureModal);
+        modalClose.addEventListener('click', closeFeatureModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeFeatureModal();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            new NarrativeCarousel();
+            new DelayedTileExpansion();
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            
+            document.querySelectorAll('.scroll-reveal, .step-node, .triptych-wrapper').forEach(el => observer.observe(el));
+            
+            const stepNodes = document.querySelectorAll('.step-node');
+            stepNodes.forEach((node, index) => {
+                setTimeout(() => node.classList.add('in-view'), 300 + (index * 200));
+            });
+        });
+
+        console.log('%c🌀 AuraFlow Premium Components', 'font-size: 18px; color: #4A90E2; font-weight: bold');
+        console.log('%cConversion-optimized UX components for modern brands', 'font-size: 12px; color: #718096;');
+    </script>
+</body>
+</html>
