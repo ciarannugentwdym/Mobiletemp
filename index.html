@@ -24,6 +24,14 @@
             --text-medium: #4A5568;
             --text-light: #718096;
             
+            /* Category Colors for Quiz */
+            --category-recovery: #63B3ED;
+            --category-performance: #48BB78;
+            --category-balance: #ED8936;
+            --category-renewal: #9F7AEA;
+            --category-power: #F56565;
+            --category-rest: #4299E1;
+            
             --tile-1: #63B3ED;
             --tile-2: #90CDF4;
             --tile-3: #4299E1;
@@ -293,7 +301,7 @@
         .room__content { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(30px); transition: opacity 1.0s var(--ease-breath) 0.6s, transform 1.0s var(--ease-arrive) 0.6s; }
         .room.active .room__content { opacity: 1; transform: translateY(0); }
         
-        /* ===== TILE 1: HERO ===== */
+        /* ===== TILE 1: BRAND IDENTITY ===== */
         .hero-tile__logo-wrap { position: relative; margin-bottom: 1.5rem; transform: translateZ(50px); width: 100%; display: flex; justify-content: center; align-items: center; }
         
         .hero-tile__logo { width: 80%; max-width: 280px; height: auto; position: relative; z-index: 2; opacity: 0; transform: scale(0.9) translateY(10px); filter: drop-shadow(0 10px 30px rgba(74, 144, 226, 0.2)); margin: 0 auto; display: block; font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--text-dark); letter-spacing: -0.02em; }
@@ -337,106 +345,94 @@
         .hero-tile__tagline { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.1rem; color: var(--text-medium); opacity: 0; }
         .room.active .hero-tile__tagline { animation: fadeUp 0.8s var(--ease-breath) 1.2s forwards; }
         
-        /* ===== TILE 2: JOURNEY MAPPING ===== */
-        .journey-tile__headline { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--text-dark); margin-bottom: 2rem; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-arrive) 0.2s; }
-        .room.active .journey-tile__headline { opacity: 1; transform: translateY(0); }
+        /* ===== TILE 2: INTELLIGENT QUIZ HUB ===== */
+        .quiz-hub { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 1rem; }
         
-        /* MOBILE TILE 2 FIXES */
-        @media (max-width: 768px) {
-            .journey-tile__headline {
-                font-size: 1.1rem !important;
-                margin-bottom: 1.5rem !important;
-                padding: 0 0.5rem;
-            }
-            
-            .journey-visual {
-                height: 180px !important;
-                margin-bottom: 1.5rem !important;
-            }
-            
-            .stepping-stones {
-                bottom: 30% !important;
-                left: 2% !important;
-                right: 2% !important;
-            }
-            
-            .stone {
-                width: 36px !important;
-                height: 36px !important;
-                font-size: 0.9rem !important;
-            }
-            
-            .footprint-trail {
-                width: 70% !important;
-                height: 40% !important;
-            }
-            
-            .footprint {
-                width: 12px !important;
-                height: 20px !important;
-            }
-            
-            .milestone-labels {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-                align-items: center !important;
-                padding: 0 !important;
-            }
-            
-            .milestone-stat__value {
-                font-size: 1rem !important;
-            }
-            
-            .milestone-stat__label {
-                font-size: 0.65rem !important;
-            }
-        }
+        .quiz-hub__header { text-align: center; margin-bottom: 1.5rem; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-arrive) 0.2s; }
+        .room.active .quiz-hub__header { opacity: 1; transform: translateY(0); }
         
-        .journey-visual { position: relative; width: 100%; max-width: 360px; height: 200px; margin-bottom: 2rem; }
+        .quiz-hub__title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.25rem; line-height: 1.2; }
+        .quiz-hub__subtitle { font-family: var(--font-display); font-size: 0.75rem; color: var(--text-light); letter-spacing: 0.05em; }
         
-        .stepping-stones { position: absolute; bottom: 25%; left: 5%; right: 5%; display: flex; justify-content: space-between; align-items: center; z-index: 10; pointer-events: none; }
+        /* Social Proof Notification */
+        .social-proof { position: absolute; top: 0.75rem; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border: 1px solid rgba(74, 144, 226, 0.15); border-radius: 100px; padding: 0.4rem 1rem; font-family: var(--font-display); font-size: 0.7rem; color: var(--text-medium); display: flex; align-items: center; gap: 0.5rem; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; z-index: 20; box-shadow: 0 2px 8px rgba(30, 58, 95, 0.06); }
+        .social-proof.visible { opacity: 1; }
+        .social-proof__dot { width: 6px; height: 6px; background: #48BB78; border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
         
-        .stone { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-color); border: 2px solid rgba(74, 144, 226, 0.3); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 600; color: var(--text-dark); opacity: 0; transform: scale(0.5); box-shadow: 0 4px 12px rgba(30, 58, 95, 0.08); }
-        .stone[data-step="check"] { background: var(--tile-3); color: white; border-color: var(--tile-3); }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
         
-        .room.active .stone[data-step="1"] { animation: stoneAppear 0.6s var(--ease-arrive) 0.6s forwards; }
-        .room.active .stone[data-step="2"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.0s forwards; }
-        .room.active .stone[data-step="3"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.4s forwards; }
-        .room.active .stone[data-step="4"] { animation: stoneAppear 0.6s var(--ease-arrive) 1.8s forwards; }
-        .room.active .stone[data-step="check"] { animation: stoneAppear 0.6s var(--ease-arrive) 2.2s forwards; }
+        /* Category Grid */
+        .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; width: 100%; max-width: 360px; margin-bottom: 1rem; opacity: 0; transform: translateY(20px); transition: all 0.6s var(--ease-arrive) 0.4s; }
+        .room.active .category-grid { opacity: 1; transform: translateY(0); }
         
-        @keyframes stoneAppear { to { opacity: 1; transform: scale(1); } }
+        .category-card { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(74, 144, 226, 0.15); border-radius: 16px; padding: 1rem 0.5rem; cursor: pointer; transition: all 0.3s var(--transition-spring); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .category-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--category-color, var(--primary-blue)) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s ease; }
+        .category-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px -8px rgba(30, 58, 95, 0.15); border-color: var(--category-color, var(--primary-blue)); }
+        .category-card:hover::before { opacity: 0.08; }
+        .category-card.selected { transform: scale(1.05); box-shadow: 0 16px 32px -8px rgba(30, 58, 95, 0.2); border-color: var(--category-color, var(--primary-blue)); }
+        .category-card.selected::before { opacity: 0.12; }
+        .category-card.faded { opacity: 0.3; pointer-events: none; }
         
-        .footprint-trail { position: absolute; top: 15%; right: 5%; width: 60%; height: 45%; pointer-events: none; z-index: 5; }
+        .category-card[data-category="recovery"] { --category-color: var(--category-recovery); }
+        .category-card[data-category="performance"] { --category-color: var(--category-performance); }
+        .category-card[data-category="balance"] { --category-color: var(--category-balance); }
+        .category-card[data-category="renewal"] { --category-color: var(--category-renewal); }
+        .category-card[data-category="power"] { --category-color: var(--category-power); }
+        .category-card[data-category="rest"] { --category-color: var(--category-rest); }
         
-        .footprint { position: absolute; width: 14px; height: 24px; border-radius: 60% 40% 40% 60% / 70% 70% 30% 30%; opacity: 0; transform: scale(0.8); filter: blur(0.3px); }
-        .footprint:nth-child(odd) { transform: rotate(-12deg) scale(0.8); background: var(--tile-3); }
-        .footprint:nth-child(even) { transform: rotate(12deg) scale(0.8) translateY(-3px); background: var(--tile-2); }
-        .footprint:nth-child(1) { left: 10%; top: 60%; }
-        .footprint:nth-child(2) { left: 25%; top: 45%; }
-        .footprint:nth-child(3) { left: 40%; top: 30%; }
-        .footprint:nth-child(4) { left: 55%; top: 20%; }
-        .footprint:nth-child(5) { left: 70%; top: 15%; }
-        .footprint:nth-child(6) { left: 82%; top: 10%; }
+        .category-card__icon { width: 40px; height: 40px; border-radius: 12px; background: var(--category-color, var(--primary-blue)); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; position: relative; z-index: 1; transition: transform 0.3s ease; }
+        .category-card:hover .category-card__icon { transform: scale(1.1); }
         
-        .room.active .footprint:nth-child(1) { animation: footprintIn 0.5s var(--ease-arrive) 0.8s forwards; }
-        .room.active .footprint:nth-child(2) { animation: footprintIn 0.5s var(--ease-arrive) 1.2s forwards; }
-        .room.active .footprint:nth-child(3) { animation: footprintIn 0.5s var(--ease-arrive) 1.6s forwards; }
-        .room.active .footprint:nth-child(4) { animation: footprintIn 0.5s var(--ease-arrive) 2.0s forwards; }
-        .room.active .footprint:nth-child(5) { animation: footprintIn 0.5s var(--ease-arrive) 2.4s forwards; }
-        .room.active .footprint:nth-child(6) { animation: footprintIn 0.5s var(--ease-arrive) 2.8s forwards; }
+        .category-card__label { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-dark); position: relative; z-index: 1; text-align: center; line-height: 1.2; }
         
-        @keyframes footprintIn { 0% { opacity: 0; transform: scale(0.6) rotate(var(--rotate, 0deg)); } 30% { opacity: 0.15; } 100% { opacity: 0.08; transform: scale(1) rotate(var(--rotate, 0deg)); } }
+        /* Question Flow */
+        .question-flow { width: 100%; max-width: 320px; opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) translateY(20px); transition: all 0.5s var(--ease-arrive); }
+        .question-flow.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) translateY(0); }
         
-        .path-line { position: absolute; bottom: 25%; left: 5%; right: 5%; height: 2px; background: linear-gradient(90deg, rgba(74, 144, 226, 0.15) 0%, rgba(99, 179, 237, 0.3) 50%, rgba(66, 153, 225, 0.4) 100%); border-radius: 2px; opacity: 0; transition: opacity 0.8s ease 3.5s; }
-        .room.active .path-line { opacity: 1; }
+        .question-text { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem; text-align: center; line-height: 1.3; }
         
-        .milestone-labels { display: flex; justify-content: space-between; width: 100%; max-width: 300px; padding: 0 5%; gap: 2rem; opacity: 0; transform: translateY(15px); transition: all 0.6s var(--ease-breath) 3.8s; }
-        .room.active .milestone-labels { opacity: 1; transform: translateY(0); }
+        .option-group { display: flex; flex-direction: column; gap: 0.5rem; }
         
-        .milestone-stat { text-align: center; }
-        .milestone-stat__value { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--text-dark); display: block; }
-        .milestone-stat__label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+        .option-btn { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(74, 144, 226, 0.2); border-radius: 12px; padding: 0.75rem 1rem; font-family: var(--font-display); font-size: 0.85rem; font-weight: 500; color: var(--text-medium); cursor: pointer; transition: all 0.2s ease; text-align: left; display: flex; align-items: center; gap: 0.5rem; }
+        .option-btn:hover { background: rgba(74, 144, 226, 0.05); border-color: var(--primary-blue); color: var(--text-dark); transform: translateX(4px); }
+        .option-btn.selected { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+        
+        /* Probability Meter */
+        .probability-meter { width: 100%; max-width: 280px; text-align: center; opacity: 0; transform: scale(0.9); pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); transition: all 0.6s var(--ease-arrive); }
+        .probability-meter.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+        
+        .meter-circle { width: 120px; height: 120px; margin: 0 auto 1rem; position: relative; }
+        
+        .meter-svg { transform: rotate(-90deg); }
+        
+        .meter-bg { fill: none; stroke: rgba(74, 144, 226, 0.1); stroke-width: 8; }
+        .meter-fill { fill: none; stroke: url(#meterGradient); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset 0.8s ease-out; }
+        
+        .meter-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--text-dark); }
+        
+        .meter-label { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem; }
+        
+        .meter-result { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+        
+        .meter-cta { font-family: var(--font-display); font-size: 0.75rem; color: var(--primary-blue); font-weight: 500; }
+        
+        /* Confetti Animation */
+        .confetti-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+        
+        .confetti { position: absolute; width: 8px; height: 8px; opacity: 0; }
+        .confetti.active { animation: confettiFall 1s ease-out forwards; }
+        
+        @keyframes confettiFall { 0% { opacity: 1; transform: translateY(0) rotate(0deg); } 100% { opacity: 0; transform: translateY(100px) rotate(720deg); } }
+        
+        /* Adaptive Progress Bar */
+        .adaptive-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(74, 144, 226, 0.1); z-index: 30; }
+        .adaptive-progress__fill { height: 100%; background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light)); width: 0%; transition: width 0.1s linear; }
+        .adaptive-progress.paused .adaptive-progress__fill { animation-play-state: paused; }
+        
+        /* Predicted Segment Indicator */
+        .predicted-segment { position: absolute; top: 0.5rem; right: 0.75rem; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(74, 144, 226, 0.2); border-radius: 100px; padding: 0.25rem 0.75rem; font-family: var(--font-display); font-size: 0.65rem; color: var(--text-light); opacity: 0; transform: translateY(-10px); transition: all 0.3s ease; z-index: 20; }
+        .predicted-segment.visible { opacity: 1; transform: translateY(0); }
+        .predicted-segment__value { color: var(--primary-blue); font-weight: 600; }
         
         /* ===== TILE 3: ASSESSMENT ===== */
         .room[data-index="2"] .room__content { padding-top: 1rem; padding-bottom: 1rem; justify-content: flex-start; padding-top: 2rem; }
@@ -1026,6 +1022,20 @@
         @media (pointer: coarse) { .btn, .nav-arrow, .nav-dot, .step-badge, .tile__trigger { min-height: 44px; min-width: 44px; } }
         
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }
+        
+        /* Mobile Quiz Hub Adjustments */
+        @media (max-width: 480px) {
+            .quiz-hub__title { font-size: 1.1rem !important; }
+            .category-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; max-width: 280px !important; }
+            .category-card { padding: 0.75rem 0.4rem !important; }
+            .category-card__icon { width: 32px !important; height: 32px !important; font-size: 1rem !important; }
+            .category-card__label { font-size: 0.7rem !important; }
+            .question-text { font-size: 0.95rem !important; }
+            .option-btn { padding: 0.6rem 0.75rem !important; font-size: 0.8rem !important; }
+            .meter-circle { width: 100px !important; height: 100px !important; }
+            .meter-text { font-size: 1.5rem !important; }
+            .social-proof { font-size: 0.65rem !important; padding: 0.3rem 0.75rem !important; }
+        }
     </style>
 </head>
 <body>
@@ -1101,38 +1111,104 @@
                                 </div>
                             </div>
                             
-                            <!-- TILE 2: JOURNEY MAPPING -->
-                            <div class="room" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 5: Map Your Path" aria-hidden="true" inert>
+                            <!-- TILE 2: INTELLIGENT QUIZ HUB -->
+                            <div class="room" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 5: Intelligent Quiz Hub" aria-hidden="true" inert>
                                 <div class="room__bg room__bg--journey"></div>
+                                
+                                <!-- Adaptive Progress Bar -->
+                                <div class="adaptive-progress" id="adaptiveProgress">
+                                    <div class="adaptive-progress__fill" id="progressFill"></div>
+                                </div>
+                                
+                                <!-- Predicted Segment Indicator -->
+                                <div class="predicted-segment" id="predictedSegment">
+                                    Predicted: <span class="predicted-segment__value" id="predictedValue">--</span>
+                                </div>
+                                
+                                <!-- Social Proof Notification -->
+                                <div class="social-proof" id="socialProof">
+                                    <span class="social-proof__dot"></span>
+                                    <span id="socialProofText">Sarah from Denver just completed her assessment</span>
+                                </div>
+                                
                                 <div class="room__content">
-                                    <p class="journey-tile__headline">Map Your Path</p>
-                                    <div class="journey-visual">
-                                        <div class="stepping-stones">
-                                            <div class="stone" data-step="1">1</div>
-                                            <div class="stone" data-step="2">2</div>
-                                            <div class="stone" data-step="3">3</div>
-                                            <div class="stone" data-step="4">4</div>
-                                            <div class="stone" data-step="check" aria-label="Complete">✓</div>
+                                    <div class="quiz-hub">
+                                        <div class="quiz-hub__header">
+                                            <h2 class="quiz-hub__title">Find Your Path</h2>
+                                            <p class="quiz-hub__subtitle">Select what resonates most</p>
                                         </div>
-                                        <div class="footprint-trail" aria-hidden="true">
-                                            <div class="footprint"></div>
-                                            <div class="footprint"></div>
-                                            <div class="footprint"></div>
-                                            <div class="footprint"></div>
-                                            <div class="footprint"></div>
-                                            <div class="footprint"></div>
+                                        
+                                        <!-- Category Selection Grid -->
+                                        <div class="category-grid" id="categoryGrid">
+                                            <div class="category-card" data-category="recovery" data-pain="8">
+                                                <div class="category-card__icon"><i class="ph ph-heartbeat"></i></div>
+                                                <span class="category-card__label">Recovery</span>
+                                            </div>
+                                            <div class="category-card" data-category="performance" data-pain="6">
+                                                <div class="category-card__icon"><i class="ph ph-lightning"></i></div>
+                                                <span class="category-card__label">Performance</span>
+                                            </div>
+                                            <div class="category-card" data-category="balance" data-pain="5">
+                                                <div class="category-card__icon"><i class="ph ph-scales"></i></div>
+                                                <span class="category-card__label">Balance</span>
+                                            </div>
+                                            <div class="category-card" data-category="renewal" data-pain="7">
+                                                <div class="category-card__icon"><i class="ph ph-arrows-clockwise"></i></div>
+                                                <span class="category-card__label">Renewal</span>
+                                            </div>
+                                            <div class="category-card" data-category="power" data-pain="9">
+                                                <div class="category-card__icon"><i class="ph ph-fire"></i></div>
+                                                <span class="category-card__label">Power</span>
+                                            </div>
+                                            <div class="category-card" data-category="rest" data-pain="4">
+                                                <div class="category-card__icon"><i class="ph ph-moon"></i></div>
+                                                <span class="category-card__label">Rest</span>
+                                            </div>
                                         </div>
-                                        <div class="path-line" aria-hidden="true"></div>
-                                    </div>
-                                    <div class="milestone-labels">
-                                        <div class="milestone-stat">
-                                            <span class="milestone-stat__value">5 steps</span>
-                                            <span class="milestone-stat__label">guided flow</span>
+                                        
+                                        <!-- Question Flow (Hidden initially) -->
+                                        <div class="question-flow" id="questionFlow">
+                                            <p class="question-text" id="questionText">How soon are you looking to start?</p>
+                                            <div class="option-group" id="optionGroup">
+                                                <button class="option-btn" data-value="immediate">Right away</button>
+                                                <button class="option-btn" data-value="30_days">Within 30 days</button>
+                                                <button class="option-btn" data-value="90_days">Within 90 days</button>
+                                                <button class="option-btn" data-value="researching">Just exploring</button>
+                                            </div>
                                         </div>
-                                        <div class="milestone-stat">
-                                            <span class="milestone-stat__value">5 milestones</span>
-                                            <span class="milestone-stat__label">track progress</span>
+                                        
+                                        <!-- Second Question -->
+                                        <div class="question-flow" id="questionFlow2">
+                                            <p class="question-text">Who else is involved in this decision?</p>
+                                            <div class="option-group">
+                                                <button class="option-btn" data-value="sole_decision">Just me</button>
+                                                <button class="option-btn" data-value="shared">Partner/spouse</button>
+                                                <button class="option-btn" data-value="need_approval">Need approval</button>
+                                            </div>
                                         </div>
+                                        
+                                        <!-- Probability Meter -->
+                                        <div class="probability-meter" id="probabilityMeter">
+                                            <div class="meter-circle">
+                                                <svg class="meter-svg" width="120" height="120" viewBox="0 0 120 120">
+                                                    <defs>
+                                                        <linearGradient id="meterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%" stop-color="#4A90E2"/>
+                                                            <stop offset="100%" stop-color="#48BB78"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <circle class="meter-bg" cx="60" cy="60" r="45"/>
+                                                    <circle class="meter-fill" id="meterFill" cx="60" cy="60" r="45"/>
+                                                </svg>
+                                                <div class="meter-text" id="meterText">0%</div>
+                                            </div>
+                                            <p class="meter-label">Your personalized path is ready</p>
+                                            <p class="meter-result" id="meterResult">Recovery Track</p>
+                                            <p class="meter-cta">Redirecting you now...</p>
+                                        </div>
+                                        
+                                        <!-- Confetti Container -->
+                                        <div class="confetti-container" id="confettiContainer"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1701,7 +1777,585 @@
             { title: 'Complete Theme Package', icon: 'ph-palette', price: '$3,500', desc: 'Full design system with CSS custom properties, easing functions, and responsive utilities.', features: ['CSS variable system', '8-component integration', 'Responsive breakpoints', 'Documentation included', 'Priority support'] }
         ];
 
-        // Narrative Carousel Class
+        // ==========================================
+        // INTELLIGENT QUIZ HUB - TILE 2
+        // ==========================================
+        
+        class IntelligentQuizHub {
+            constructor(carousel) {
+                this.carousel = carousel;
+                this.visitorId = null;
+                this.behavioralData = {
+                    categoryHoverDistribution: [],
+                    hoverStartTime: null,
+                    currentCategory: null,
+                    optionReconsiderationCount: 0,
+                    decisionLatencyStart: null,
+                    hoverPattern: [],
+                    mousePositions: [],
+                    interactionCount: 0,
+                    scrollVelocity: 'moderate',
+                    lastScrollY: 0,
+                    scrollTimestamp: Date.now()
+                };
+                this.selectedCategory = null;
+                this.answers = {};
+                this.isActive = false;
+                this.eventQueue = [];
+                this.eventFlushInterval = null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Create visitor on quiz tile activation
+                this.carousel.stage.addEventListener('roomchange', (e) => {
+                    if (e.detail.index === 1 && !this.visitorId) {
+                        this.createVisitor();
+                        this.isActive = true;
+                        this.startEventTracking();
+                        this.startSocialProofPolling();
+                    } else if (e.detail.index !== 1) {
+                        this.isActive = false;
+                    }
+                });
+                
+                // Initialize category cards
+                const categoryCards = document.querySelectorAll('.category-card');
+                categoryCards.forEach(card => {
+                    this.setupCategoryTracking(card);
+                });
+                
+                // Setup question flow
+                this.setupQuestionFlow();
+                
+                // Setup scroll tracking
+                this.setupScrollTracking();
+                
+                // Setup adaptive carousel controls
+                this.setupAdaptiveControls();
+            }
+            
+            async createVisitor() {
+                try {
+                    const fingerprint = this.generateFingerprint();
+                    const response = await fetch('http://localhost:3001/api/visitor', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: null, fingerprint })
+                    });
+                    const data = await response.json();
+                    this.visitorId = data.visitor_id || data.id;
+                    console.log('Visitor created:', this.visitorId);
+                } catch (error) {
+                    console.warn('API not available, using demo mode');
+                    this.visitorId = 'demo-' + Date.now();
+                }
+            }
+            
+            generateFingerprint() {
+                return btoa([
+                    navigator.userAgent,
+                    navigator.language,
+                    screen.width + 'x' + screen.height,
+                    new Date().getTimezoneOffset()
+                ].join('|'));
+            }
+            
+            setupCategoryTracking(card) {
+                const category = card.dataset.category;
+                let hoverStart = 0;
+                let hoverDuration = 0;
+                
+                // Mouse enter - start tracking
+                card.addEventListener('mouseenter', () => {
+                    if (!this.isActive) return;
+                    
+                    hoverStart = Date.now();
+                    this.behavioralData.currentCategory = category;
+                    this.behavioralData.hoverStartTime = hoverStart;
+                    
+                    // Track decision latency on first hover
+                    if (!this.behavioralData.decisionLatencyStart) {
+                        this.behavioralData.decisionLatencyStart = hoverStart;
+                    }
+                    
+                    // Pause carousel on hover
+                    this.carousel.pauseForInteraction();
+                    
+                    // Update predicted segment display
+                    this.updatePredictedSegment(category);
+                    
+                    // Track event
+                    this.queueEvent('category_hover', {
+                        category,
+                        timestamp: hoverStart
+                    });
+                    
+                    // Start mouse position tracking
+                    this.startMouseTracking(card);
+                });
+                
+                // Mouse leave - calculate duration
+                card.addEventListener('mouseleave', () => {
+                    if (!this.isActive) return;
+                    
+                    hoverDuration = Date.now() - hoverStart;
+                    
+                    // Update distribution
+                    const existing = this.behavioralData.categoryHoverDistribution.find(
+                        h => h.category === category
+                    );
+                    if (existing) {
+                        existing.duration_ms += hoverDuration;
+                    } else {
+                        this.behavioralData.categoryHoverDistribution.push({
+                            category,
+                            duration_ms: hoverDuration
+                        });
+                    }
+                    
+                    // Track reconsideration
+                    if (this.behavioralData.categoryHoverDistribution.length > 1) {
+                        this.behavioralData.optionReconsiderationCount++;
+                    }
+                    
+                    // Resume carousel after delay
+                    setTimeout(() => {
+                        if (!this.carousel.isPaused) {
+                            this.carousel.resumeFromInteraction();
+                        }
+                    }, 3000);
+                    
+                    this.stopMouseTracking();
+                });
+                
+                // Click - select category
+                card.addEventListener('click', () => {
+                    if (!this.isActive) return;
+                    
+                    this.selectCategory(card, category);
+                    
+                    // Calculate decision latency
+                    const decisionLatency = Date.now() - (this.behavioralData.decisionLatencyStart || Date.now());
+                    
+                    this.queueEvent('category_select', {
+                        category,
+                        decision_latency_ms: decisionLatency,
+                        hover_distribution: this.behavioralData.categoryHoverDistribution,
+                        reconsideration_count: this.behavioralData.optionReconsiderationCount,
+                        hover_pattern: this.calculateHoverPattern()
+                    });
+                });
+            }
+            
+            startMouseTracking(element) {
+                this.mouseTracker = (e) => {
+                    const rect = element.getBoundingClientRect();
+                    this.behavioralData.mousePositions.push({
+                        x: e.clientX - rect.left,
+                        y: e.clientY - rect.top,
+                        timestamp: Date.now()
+                    });
+                    
+                    // Keep only last 50 positions
+                    if (this.behavioralData.mousePositions.length > 50) {
+                        this.behavioralData.mousePositions.shift();
+                    }
+                };
+                element.addEventListener('mousemove', this.mouseTracker);
+            }
+            
+            stopMouseTracking() {
+                if (this.mouseTracker) {
+                    document.removeEventListener('mousemove', this.mouseTracker);
+                    this.mouseTracker = null;
+                }
+            }
+            
+            calculateHoverPattern() {
+                const positions = this.behavioralData.mousePositions;
+                if (positions.length < 5) return 'decisive';
+                
+                // Calculate movement variance
+                let totalVariance = 0;
+                for (let i = 1; i < positions.length; i++) {
+                    const dx = positions[i].x - positions[i-1].x;
+                    const dy = positions[i].y - positions[i-1].y;
+                    totalVariance += Math.sqrt(dx*dx + dy*dy);
+                }
+                
+                const avgVariance = totalVariance / positions.length;
+                
+                if (avgVariance < 2) return 'hesitant';
+                if (avgVariance > 10) return 'exploratory';
+                return 'decisive';
+            }
+            
+            updatePredictedSegment(category) {
+                const indicator = document.getElementById('predictedSegment');
+                const value = document.getElementById('predictedValue');
+                if (indicator && value) {
+                    value.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                    indicator.classList.add('visible');
+                }
+            }
+            
+            selectCategory(card, category) {
+                this.selectedCategory = category;
+                
+                // Visual feedback
+                document.querySelectorAll('.category-card').forEach(c => {
+                    c.classList.add('faded');
+                    c.classList.remove('selected');
+                });
+                card.classList.remove('faded');
+                card.classList.add('selected');
+                
+                // Show question flow
+                setTimeout(() => {
+                    document.getElementById('categoryGrid').style.opacity = '0';
+                    document.getElementById('categoryGrid').style.pointerEvents = 'none';
+                    document.getElementById('questionFlow').classList.add('active');
+                }, 300);
+                
+                // Track pain severity from data attribute
+                this.painSeverity = parseInt(card.dataset.pain) || 5;
+                
+                // Pause carousel during questions
+                this.carousel.pauseForInteraction();
+            }
+            
+            setupQuestionFlow() {
+                // First question options
+                const q1Options = document.querySelectorAll('#questionFlow .option-btn');
+                q1Options.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.answers.purchase_timeline = btn.dataset.value;
+                        
+                        // Visual feedback
+                        q1Options.forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        
+                        // Show second question
+                        setTimeout(() => {
+                            document.getElementById('questionFlow').classList.remove('active');
+                            document.getElementById('questionFlow2').classList.add('active');
+                        }, 300);
+                        
+                        this.queueEvent('question_reveal', {
+                            question: 'purchase_timeline',
+                            answer: btn.dataset.value
+                        });
+                    });
+                });
+                
+                // Second question options
+                const q2Options = document.querySelectorAll('#questionFlow2 .option-btn');
+                q2Options.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.answers.budget_authority = btn.dataset.value;
+                        
+                        // Visual feedback
+                        q2Options.forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        
+                        // Show probability meter
+                        setTimeout(() => {
+                            this.showProbabilityMeter();
+                        }, 300);
+                        
+                        this.queueEvent('decision_made', {
+                            question: 'budget_authority',
+                            answer: btn.dataset.value
+                        });
+                        
+                        // Submit quiz data
+                        this.submitQuiz();
+                    });
+                });
+            }
+            
+            showProbabilityMeter() {
+                document.getElementById('questionFlow2').classList.remove('active');
+                const meter = document.getElementById('probabilityMeter');
+                meter.classList.add('active');
+                
+                // Calculate match percentage based on answers
+                let matchScore = 75;
+                if (this.answers.purchase_timeline === 'immediate') matchScore += 15;
+                if (this.answers.budget_authority === 'sole_decision') matchScore += 10;
+                matchScore = Math.min(98, matchScore);
+                
+                // Animate meter
+                setTimeout(() => {
+                    const fill = document.getElementById('meterFill');
+                    const text = document.getElementById('meterText');
+                    const circumference = 2 * Math.PI * 45;
+                    const offset = circumference - (matchScore / 100) * circumference;
+                    
+                    fill.style.strokeDashoffset = offset;
+                    
+                    // Animate number
+                    let current = 0;
+                    const interval = setInterval(() => {
+                        current += 2;
+                        text.textContent = current + '%';
+                        if (current >= matchScore) {
+                            clearInterval(interval);
+                            text.textContent = matchScore + '%';
+                        }
+                    }, 20);
+                    
+                    // Update result text
+                    const resultText = document.getElementById('meterResult');
+                    resultText.textContent = this.selectedCategory.charAt(0).toUpperCase() + 
+                                            this.selectedCategory.slice(1) + ' Track';
+                    
+                    // Trigger confetti
+                    this.triggerConfetti();
+                    
+                    // Glow effect
+                    meter.style.boxShadow = `0 0 60px ${this.getCategoryColor(this.selectedCategory)}40`;
+                    
+                }, 100);
+                
+                // Auto-advance carousel after showing result
+                setTimeout(() => {
+                    this.carousel.navigate(1);
+                }, 3500);
+            }
+            
+            getCategoryColor(category) {
+                const colors = {
+                    recovery: '#63B3ED',
+                    performance: '#48BB78',
+                    balance: '#ED8936',
+                    renewal: '#9F7AEA',
+                    power: '#F56565',
+                    rest: '#4299E1'
+                };
+                return colors[category] || '#4A90E2';
+            }
+            
+            triggerConfetti() {
+                const container = document.getElementById('confettiContainer');
+                const colors = ['#63B3ED', '#48BB78', '#ED8936', '#9F7AEA', '#F56565'];
+                
+                for (let i = 0; i < 20; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '50%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.classList.add('active'), 10);
+                    setTimeout(() => confetti.remove(), 1100);
+                }
+            }
+            
+            async submitQuiz() {
+                if (!this.visitorId) return;
+                
+                const quizData = {
+                    visitor_id: this.visitorId,
+                    purchase_timeline: this.answers.purchase_timeline,
+                    budget_authority: this.answers.budget_authority,
+                    pain_severity: this.painSeverity,
+                    decision_style: this.calculateHoverPattern(),
+                    price_sensitivity: 'value_balanced',
+                    selected_category: this.selectedCategory
+                };
+                
+                try {
+                    const response = await fetch('http://localhost:3001/api/quiz', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(quizData)
+                    });
+                    const result = await response.json();
+                    console.log('Quiz submitted:', result);
+                } catch (error) {
+                    console.warn('Quiz API not available:', error);
+                }
+            }
+            
+            setupScrollTracking() {
+                let lastScrollY = window.scrollY;
+                let lastTime = Date.now();
+                
+                window.addEventListener('scroll', () => {
+                    if (!this.isActive) return;
+                    
+                    const currentY = window.scrollY;
+                    const currentTime = Date.now();
+                    const deltaY = currentY - lastScrollY;
+                    const deltaTime = currentTime - lastTime;
+                    
+                    if (deltaTime > 0) {
+                        const velocity = Math.abs(deltaY / deltaTime);
+                        
+                        if (velocity < 0.5) this.behavioralData.scrollVelocity = 'slow';
+                        else if (velocity < 1.5) this.behavioralData.scrollVelocity = 'moderate';
+                        else this.behavioralData.scrollVelocity = 'fast';
+                        
+                        // Speed up carousel if user scrolled past
+                        if (deltaY > 100 && this.carousel) {
+                            this.carousel.speedModifier = 0.7;
+                        }
+                    }
+                    
+                    lastScrollY = currentY;
+                    lastTime = currentTime;
+                });
+            }
+            
+            setupAdaptiveControls() {
+                // Track mouse in tile
+                const tile2 = document.querySelector('.room[data-index="1"]');
+                if (tile2) {
+                    tile2.addEventListener('mouseenter', () => {
+                        this.carousel.pauseForInteraction();
+                    });
+                    
+                    tile2.addEventListener('mouseleave', () => {
+                        if (!this.carousel.isPaused) {
+                            this.carousel.resumeFromInteraction();
+                        }
+                    });
+                }
+            }
+            
+            queueEvent(eventType, metadata) {
+                this.behavioralData.interactionCount++;
+                
+                const event = {
+                    visitor_id: this.visitorId,
+                    event_type: eventType,
+                    metadata: {
+                        ...metadata,
+                        scroll_velocity: this.behavioralData.scrollVelocity,
+                        engagement_depth: this.calculateEngagementDepth(),
+                        time_of_day_context: this.getTimeOfDay(),
+                        device_posture: this.getDevicePosture()
+                    },
+                    timestamp: new Date().toISOString()
+                };
+                
+                this.eventQueue.push(event);
+                
+                // Flush immediately for significant events
+                if (['category_select', 'decision_made'].includes(eventType)) {
+                    this.flushEvents();
+                }
+            }
+            
+            calculateEngagementDepth() {
+                const count = this.behavioralData.interactionCount;
+                if (count < 3) return 'surface';
+                if (count < 8) return 'interested';
+                return 'committed';
+            }
+            
+            getTimeOfDay() {
+                const hour = new Date().getHours();
+                if (hour < 12) return 'morning';
+                if (hour < 17) return 'afternoon';
+                if (hour < 21) return 'evening';
+                return 'night';
+            }
+            
+            getDevicePosture() {
+                const width = window.innerWidth;
+                if (width > 1024) return 'desktop';
+                if (width > 768) return 'tablet';
+                // Check if likely one-handed
+                return width < 400 ? 'mobile_one_handed' : 'mobile_two_handed';
+            }
+            
+            startEventTracking() {
+                // Flush events every 2 seconds
+                this.eventFlushInterval = setInterval(() => {
+                    this.flushEvents();
+                }, 2000);
+            }
+            
+            async flushEvents() {
+                if (this.eventQueue.length === 0 || !this.visitorId) return;
+                
+                const events = [...this.eventQueue];
+                this.eventQueue = [];
+                
+                try {
+                    await fetch('http://localhost:3001/api/event', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ events })
+                    });
+                } catch (error) {
+                    // Silently fail in demo mode
+                    console.log('Events (demo mode):', events);
+                }
+            }
+            
+            startSocialProofPolling() {
+                const socialProofEl = document.getElementById('socialProof');
+                const textEl = document.getElementById('socialProofText');
+                
+                const messages = [
+                    'Sarah from Denver just completed her assessment',
+                    '3 people found their path this hour',
+                    'Mike from Austin started his journey',
+                    'Emma found her perfect match',
+                    '2 assessments completed in the last 5 minutes'
+                ];
+                
+                let index = 0;
+                
+                const updateSocialProof = async () => {
+                    if (!this.isActive) return;
+                    
+                    // Try to fetch real data
+                    try {
+                        const response = await fetch('http://localhost:3001/api/stats?days=1');
+                        const stats = await response.json();
+                        
+                        if (stats.recent_activity && stats.recent_activity.length > 0) {
+                            const activity = stats.recent_activity[0];
+                            textEl.textContent = `${activity.location || 'Someone'} just completed their assessment • ${activity.time_ago}`;
+                        } else {
+                            textEl.textContent = messages[index];
+                            index = (index + 1) % messages.length;
+                        }
+                    } catch (error) {
+                        // Use fallback messages
+                        textEl.textContent = messages[index];
+                        index = (index + 1) % messages.length;
+                    }
+                    
+                    socialProofEl.classList.add('visible');
+                    
+                    // Hide after 5 seconds, show next after 10
+                    setTimeout(() => {
+                        socialProofEl.classList.remove('visible');
+                    }, 5000);
+                };
+                
+                // Initial show
+                setTimeout(updateSocialProof, 2000);
+                
+                // Poll every 30 seconds
+                setInterval(updateSocialProof, 30000);
+            }
+        }
+
+        // ==========================================
+        // ENHANCED NARRATIVE CAROUSEL
+        // ==========================================
+        
         class NarrativeCarousel {
             constructor() {
                 this.stage = document.getElementById('spatialStage');
@@ -1714,17 +2368,25 @@
                 this.artifactLayer = document.getElementById('artifactLayer');
                 this.liveRegion = document.getElementById('carousel-live-region');
                 this.carouselBox = document.getElementById('carouselBox');
+                this.progressFill = document.getElementById('progressFill');
                 this.currentIndex = 0;
                 this.totalRooms = this.rooms.length;
                 this.isTransitioning = false;
                 this.isPaused = false;
-                this.durations = [6000, 6000, 6000, 6000, 6000];
+                this.isInteractionPaused = false;
+                this.speedModifier = 1;
+                this.baseDuration = 6000;
+                this.durations = [6000, 12000, 6000, 6000, 6000]; // Longer for quiz tile
                 
-                // Touch support properties
+                // Touch support
                 this.touchStartX = 0;
                 this.touchEndX = 0;
                 this.minSwipeDistance = 50;
                 this.isDragging = false;
+                
+                // Adaptive timing
+                this.pauseTriggers = ['category_hover', 'question_visible', 'option_selected', 'mouse_in_tile'];
+                this.inactivityTimer = null;
                 
                 this.init();
             }
@@ -1751,22 +2413,52 @@
                 
                 this.showArtifacts(0);
                 this.startAutoPlay();
-                this.stage.addEventListener('mouseenter', () => this.stopAutoPlay());
-                this.stage.addEventListener('mouseleave', () => {
-                    if (!this.isPaused) this.startAutoPlay();
+                
+                // Adaptive pause on hover
+                this.stage.addEventListener('mouseenter', () => {
+                    if (this.currentIndex === 1) { // Quiz tile
+                        this.pauseForInteraction();
+                    }
                 });
                 
-                // Initialize touch support
+                this.stage.addEventListener('mouseleave', () => {
+                    if (!this.isPaused && !this.isInteractionPaused) {
+                        this.startAutoPlay();
+                    }
+                });
+                
                 this.initTouchSupport();
                 
-                // Respect reduced motion preference
+                // Dispatch room change events for quiz hub
+                this.setupRoomChangeEvents();
+                
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     this.durations = [0, 0, 0, 0, 0];
                 }
             }
             
+            setupRoomChangeEvents() {
+                // Custom event for room changes
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                            const room = mutation.target;
+                            if (room.classList.contains('active')) {
+                                const index = parseInt(room.dataset.index);
+                                this.stage.dispatchEvent(new CustomEvent('roomchange', {
+                                    detail: { index, previousIndex: this.currentIndex }
+                                }));
+                            }
+                        }
+                    });
+                });
+                
+                this.rooms.forEach(room => {
+                    observer.observe(room, { attributes: true });
+                });
+            }
+            
             initTouchSupport() {
-                // Touch events for mobile swipe
                 this.carouselBox.addEventListener('touchstart', (e) => {
                     this.touchStartX = e.changedTouches[0].screenX;
                     this.stopAutoPlay();
@@ -1777,7 +2469,7 @@
                     this.touchEndX = e.changedTouches[0].screenX;
                     this.handleSwipe();
                     this.carouselBox.classList.remove('swiping');
-                    if (!this.isPaused) {
+                    if (!this.isPaused && !this.isInteractionPaused) {
                         setTimeout(() => this.startAutoPlay(), 1000);
                     }
                 }, { passive: true });
@@ -1792,17 +2484,11 @@
             
             handleSwipe() {
                 const swipeDistance = this.touchStartX - this.touchEndX;
-                
                 if (Math.abs(swipeDistance) < this.minSwipeDistance) {
                     this.isDragging = false;
                     return;
                 }
-                
-                if (swipeDistance > 0) {
-                    this.navigate(1);
-                } else {
-                    this.navigate(-1);
-                }
+                this.navigate(swipeDistance > 0 ? 1 : -1);
                 this.isDragging = false;
             }
             
@@ -1817,6 +2503,35 @@
                 if (this.isPaused) {
                     this.stopAutoPlay();
                 } else {
+                    this.startAutoPlay();
+                }
+            }
+            
+            pauseForInteraction() {
+                this.isInteractionPaused = true;
+                this.stopAutoPlay();
+                
+                // Update progress bar visual
+                const progress = document.getElementById('adaptiveProgress');
+                if (progress) progress.classList.add('paused');
+                
+                // Clear inactivity timer
+                if (this.inactivityTimer) {
+                    clearTimeout(this.inactivityTimer);
+                }
+                
+                // Resume after 3 seconds of inactivity
+                this.inactivityTimer = setTimeout(() => {
+                    this.resumeFromInteraction();
+                }, 3000);
+            }
+            
+            resumeFromInteraction() {
+                this.isInteractionPaused = false;
+                const progress = document.getElementById('adaptiveProgress');
+                if (progress) progress.classList.remove('paused');
+                
+                if (!this.isPaused) {
                     this.startAutoPlay();
                 }
             }
@@ -1843,7 +2558,6 @@
                 
                 this.resetAnimations(currentRoom);
                 
-                // Update ARIA states
                 currentRoom.setAttribute('aria-hidden', 'true');
                 currentRoom.setAttribute('inert', '');
                 currentRoom.removeAttribute('tabindex');
@@ -1859,19 +2573,16 @@
                     nextRoom.classList.add('active');
                 }, 80);
                 
-                // Update tabs
                 this.dots.forEach((dot, i) => {
                     dot.classList.toggle('active', i === newIndex);
                     dot.setAttribute('aria-selected', i === newIndex ? 'true' : 'false');
                 });
                 
-                // Announce to screen readers
                 const roomLabel = nextRoom.getAttribute('aria-label');
                 if (this.liveRegion) {
                     this.liveRegion.textContent = `Showing ${roomLabel}`;
                 }
                 
-                // FIXED: Synchronized headline transition with room change - 400ms for smooth animation
                 this.syncHeadline(newIndex);
                 
                 setTimeout(() => {
@@ -1879,27 +2590,30 @@
                     setTimeout(() => this.showArtifacts(newIndex), 300);
                 }, 400);
                 
+                // Reset interaction pause when changing slides
+                if (this.isInteractionPaused) {
+                    this.resumeFromInteraction();
+                }
+                
                 this.currentIndex = newIndex;
                 
-                if (!this.isPaused) this.startAutoPlay();
+                if (!this.isPaused && !this.isInteractionPaused) {
+                    this.startAutoPlay();
+                }
                 
                 setTimeout(() => { this.isTransitioning = false; }, 1200);
             }
             
-            // FIXED: Synchronized headline transition with room change - 400ms timing
             syncHeadline(newIndex) {
                 const current = this.headlines[this.currentIndex];
                 const next = this.headlines[newIndex];
                 
-                // Clear all states first to prevent accumulation
                 this.headlines.forEach(h => {
                     h.classList.remove('active', 'exit');
                 });
                 
-                // Animate current out
                 current.classList.add('exit');
                 
-                // Use 400ms timing for smooth room transition coordination
                 setTimeout(() => {
                     current.classList.remove('exit');
                     next.classList.add('active');
@@ -1907,13 +2621,11 @@
             }
             
             showArtifacts(roomIndex) {
-                // Hide all first
                 this.artifactLayer.querySelectorAll('.floating-badge').forEach(badge => {
                     badge.style.display = 'none';
                     badge.classList.remove('visible');
                 });
                 
-                // Show relevant ones
                 const artifacts = this.artifactLayer.querySelectorAll(`[data-room="${roomIndex}"]`);
                 artifacts.forEach((artifact, i) => {
                     artifact.style.display = 'flex';
@@ -1927,17 +2639,46 @@
             
             startAutoPlay() {
                 this.stopAutoPlay();
-                if (this.durations[this.currentIndex] > 0 && !this.isPaused) {
-                    this.autoPlayTimer = setInterval(() => this.navigate(1), this.durations[this.currentIndex]);
+                
+                const duration = (this.durations[this.currentIndex] || this.baseDuration) * this.speedModifier;
+                
+                if (duration > 0 && !this.isPaused && !this.isInteractionPaused) {
+                    // Animate progress bar for quiz tile
+                    if (this.currentIndex === 1 && this.progressFill) {
+                        this.progressFill.style.transition = `width ${duration}ms linear`;
+                        this.progressFill.style.width = '100%';
+                    }
+                    
+                    this.autoPlayTimer = setTimeout(() => {
+                        if (this.progressFill) {
+                            this.progressFill.style.transition = 'none';
+                            this.progressFill.style.width = '0%';
+                        }
+                        this.navigate(1);
+                    }, duration);
                 }
             }
             
             stopAutoPlay() {
-                if (this.autoPlayTimer) clearInterval(this.autoPlayTimer);
+                if (this.autoPlayTimer) {
+                    clearTimeout(this.autoPlayTimer);
+                    this.autoPlayTimer = null;
+                }
+                
+                // Pause progress bar animation
+                if (this.progressFill && this.currentIndex === 1) {
+                    const computedStyle = window.getComputedStyle(this.progressFill);
+                    const width = computedStyle.getPropertyValue('width');
+                    this.progressFill.style.transition = 'none';
+                    this.progressFill.style.width = width;
+                }
             }
         }
 
-        // Delayed Tile Expansion
+        // ==========================================
+        // DELAYED TILE EXPANSION
+        // ==========================================
+        
         class DelayedTileExpansion {
             constructor() {
                 this.tiles = document.querySelectorAll('.feature-tile');
@@ -1950,6 +2691,7 @@
                 this.tiles.forEach(tile => {
                     const trigger = tile.querySelector('.tile__trigger');
                     if (!trigger) return;
+                    
                     trigger.addEventListener('mouseenter', () => this.startHoverTimer(tile, trigger));
                     trigger.addEventListener('mouseleave', () => this.cancelHoverTimer(tile));
                     trigger.addEventListener('click', (e) => {
@@ -1974,11 +2716,17 @@
             
             cancelHoverTimer(tile) {
                 tile.classList.remove('hover-active');
-                if (this.timers.has(tile)) clearTimeout(this.timers.get(tile));
+                if (this.timers.has(tile)) {
+                    clearTimeout(this.timers.get(tile));
+                    this.timers.delete(tile);
+                }
             }
         }
 
-        // Modal Functions
+        // ==========================================
+        // MODAL FUNCTIONS
+        // ==========================================
+        
         const modal = document.getElementById('featureModal');
         const modalBackdrop = document.getElementById('modalBackdrop');
         const modalClose = document.getElementById('modalClose');
@@ -1990,8 +2738,7 @@
             if (!data) return;
             
             grid.classList.add('fogged');
-            
-            modalContent.innerHTML = '<div class="modal__loading"></div>';
+            modalContent.innerHTML = '<div class="modal__loading" style="text-align:center;padding:2rem;"><i class="ph ph-spinner animate-spin" style="font-size:2rem;color:var(--primary-blue);"></i></div>';
             
             setTimeout(() => {
                 modalContent.innerHTML = `
@@ -2012,7 +2759,6 @@
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            
             modalClose.focus();
         }
 
@@ -2034,11 +2780,16 @@
             if (e.key === 'Escape') closeFeatureModal();
         });
 
-        // Initialize
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        
         document.addEventListener('DOMContentLoaded', () => {
-            new NarrativeCarousel();
+            const carousel = new NarrativeCarousel();
+            const quizHub = new IntelligentQuizHub(carousel);
             new DelayedTileExpansion();
             
+            // Scroll reveal observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -2050,14 +2801,15 @@
             
             document.querySelectorAll('.scroll-reveal, .step-node, .triptych-wrapper').forEach(el => observer.observe(el));
             
+            // Step nodes animation
             const stepNodes = document.querySelectorAll('.step-node');
             stepNodes.forEach((node, index) => {
                 setTimeout(() => node.classList.add('in-view'), 300 + (index * 200));
             });
+            
+            console.log('%c🌀 AuraFlow Premium Components', 'font-size: 18px; color: #4A90E2; font-weight: bold');
+            console.log('%cIntelligent Quiz Hub initialized with behavioral tracking', 'font-size: 12px; color: #718096;');
         });
-
-        console.log('%c🌀 AuraFlow Premium Components', 'font-size: 18px; color: #4A90E2; font-weight: bold');
-        console.log('%cConversion-optimized UX components for modern brands', 'font-size: 12px; color: #718096;');
     </script>
 </body>
 </html>
